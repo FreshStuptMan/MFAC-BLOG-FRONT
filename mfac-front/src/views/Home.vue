@@ -53,6 +53,7 @@
               </p>
             </div>
           </div> -->
+          <!-- 实现粘滞效果 -->
           <div style="position: sticky;top: 10px;">
             <!-- 最新博客 -->
             <div style="background-color: #FEDFE1;
@@ -79,76 +80,16 @@
               <h2>𝓒𝓱𝓸𝓸𝓼𝓮 𝓨𝓸𝓾𝓻 𝓕𝓪𝓿𝓸𝓻</h2>
               <vs-divider color="#ad289f"></vs-divider>
               <div style="display: flexbox;width: 350px;position: relative;left: 50%;margin-left: -175px;">
-                <vs-button style="margin-top: 5px;margin-left: 5px;height: 40px;" color="#c72a75" type="filled">
-                  <div style="text-align: center;">
-                    <span style="font-size: 15px;">分类分类分类分类</span>
-                    <vs-avatar color="#c72a75" size="20px" text="1000"
-                      style="margin: 0px;margin-left: 15px;margin-right: 3px;font-size: 25px;float: right;"></vs-avatar>
-                  </div>
-                </vs-button>
-                <vs-button style="margin-top: 5px;margin-left: 5px;height: 40px;" color="#c72a75" type="filled">
-                  <div style="text-align: center;">
-                    <span style="font-size: 15px;">分类分类分类</span>
-                    <vs-avatar color="#c72a75" size="20px" text="1000"
-                      style="margin: 0px;margin-left: 15px;margin-right: 3px;font-size: 25px;float: right;"></vs-avatar>
-                  </div>
-                </vs-button>
-                <vs-button style="margin-top: 5px;margin-left: 5px;height: 40px;" color="#c72a75" type="filled">
-                  <div style="text-align: center;">
-                    <span style="font-size: 15px;">分类1312</span>
-                    <vs-avatar color="#c72a75" size="20px" text="1000"
-                      style="margin: 0px;margin-left: 15px;margin-right: 3px;font-size: 25px;float: right;"></vs-avatar>
-                  </div>
-                </vs-button>
-                <vs-button style="margin-top: 5px;margin-left: 5px;height: 40px;" color="#c72a75" type="filled">
-                  <div style="text-align: center;">
-                    <span style="font-size: 15px;">分类分类</span>
-                    <vs-avatar color="#c72a75" size="20px" text="1000"
-                      style="margin: 0px;margin-left: 15px;margin-right: 3px;font-size: 25px;float: right;"></vs-avatar>
-                  </div>
-                </vs-button>
-                <vs-button style="margin-top: 5px;margin-left: 5px;height: 40px;" color="#c72a75" type="filled">
-                  <div style="text-align: center;">
-                    <span style="font-size: 15px;">分类分类分类</span>
-                    <vs-avatar color="#c72a75" size="20px" text="1000"
-                      style="margin: 0px;margin-left: 15px;margin-right: 3px;font-size: 25px;float: right;"></vs-avatar>
-                  </div>
-                </vs-button>
-                <vs-button style="margin-top: 5px;margin-left: 5px;height: 40px;" color="#c72a75" type="filled">
-                  <div style="text-align: center;">
-                    <span style="font-size: 15px;">分类分类分类</span>
-                    <vs-avatar color="#c72a75" size="20px" text="1000"
-                      style="margin: 0px;margin-left: 15px;margin-right: 3px;font-size: 25px;float: right;"></vs-avatar>
-                  </div>
-                </vs-button>
-                <vs-button style="margin-top: 5px;margin-left: 5px;height: 40px;" color="#c72a75" type="filled">
-                  <div style="text-align: center;">
-                    <span style="font-size: 15px;">分类</span>
-                    <vs-avatar color="#c72a75" size="20px" text="1000"
-                      style="margin: 0px;margin-left: 15px;margin-right: 3px;font-size: 25px;float: right;"></vs-avatar>
-                  </div>
-                </vs-button>
-                <vs-button style="margin-top: 5px;margin-left: 5px;height: 40px;" color="#c72a75" type="filled">
-                  <div style="text-align: center;">
-                    <span style="font-size: 15px;">分类分类分类分类</span>
-                    <vs-avatar color="#c72a75" size="20px" text="1000"
-                      style="margin: 0px;margin-left: 15px;margin-right: 3px;font-size: 25px;float: right;"></vs-avatar>
-                  </div>
-                </vs-button>
-                <vs-button style="margin-top: 5px;margin-left: 5px;height: 40px;" color="#c72a75" type="filled">
-                  <div style="text-align: center;">
-                    <span style="font-size: 15px;">分类分类分类分类</span>
-                    <vs-avatar color="#c72a75" size="20px" text="1000"
-                      style="margin: 0px;margin-left: 15px;margin-right: 3px;font-size: 25px;float: right;"></vs-avatar>
-                  </div>
-                </vs-button>
-                <vs-button style="margin-top: 5px;margin-left: 5px;height: 40px;" color="#c72a75" type="filled">
-                  <div style="text-align: center;">
-                    <span style="font-size: 15px;">分类分类分类分类</span>
-                    <vs-avatar color="#c72a75" size="20px" text="1000"
-                      style="margin: 0px;margin-left: 15px;margin-right: 3px;font-size: 25px;float: right;"></vs-avatar>
-                  </div>
-                </vs-button>
+                <ClassifyOrTagSiderBlockVue></ClassifyOrTagSiderBlockVue>
+                <ClassifyOrTagSiderBlockVue></ClassifyOrTagSiderBlockVue>
+                <ClassifyOrTagSiderBlockVue></ClassifyOrTagSiderBlockVue>
+                <ClassifyOrTagSiderBlockVue></ClassifyOrTagSiderBlockVue>
+                <ClassifyOrTagSiderBlockVue></ClassifyOrTagSiderBlockVue>
+                <ClassifyOrTagSiderBlockVue></ClassifyOrTagSiderBlockVue>
+                <ClassifyOrTagSiderBlockVue></ClassifyOrTagSiderBlockVue>
+                <ClassifyOrTagSiderBlockVue></ClassifyOrTagSiderBlockVue>
+                <ClassifyOrTagSiderBlockVue></ClassifyOrTagSiderBlockVue>
+                <ClassifyOrTagSiderBlockVue></ClassifyOrTagSiderBlockVue>
               </div>
             </div>
           </div>
@@ -161,10 +102,12 @@
 <script>
 import BlogBlockVue from '@/components/BlogBlock.vue'
 import NewestBlogBlockVue from '@/components/NewestBlogBlock.vue'
+import ClassifyOrTagSiderBlockVue from '@/components/ClassifyOrTagSiderBlock.vue'
 export default {
   components: {
     BlogBlockVue,
-    NewestBlogBlockVue
+    NewestBlogBlockVue,
+    ClassifyOrTagSiderBlockVue
   },
   watch: {
     // 处理分页

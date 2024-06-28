@@ -58,6 +58,16 @@ export default {
         },
         // 处理博客搜索
         handleBlogSearch() {
+            if(this.search === '') {
+                this.$vs.notify({
+                    title:'提示',
+                    text:'搜索内容不能为空哦',
+                    color: 'red',
+                    position:'bottom-right'
+                })
+                console.log(1)
+                return
+            }
             console.log("搜索博客"+this.search)
         }
     }
