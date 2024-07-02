@@ -5,7 +5,8 @@ import Home from '@/views/Home.vue'
 import Classify from '@/views/Classify.vue'
 import Tag from '@/views/Tag.vue'
 import Manager from '@/views/Manager.vue'
-
+import BlogDetail from '@/views/BlogDetail.vue'
+import Search from '@/views/Search.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -33,6 +34,16 @@ const routes = [
         path: '/Manager',
         name: Manager,
         component: Manager
+      },
+      {
+        path: '/BlogDetail',
+        name: BlogDetail,
+        component: BlogDetail
+      },
+      {
+        path: '/Search',
+        name: Search,
+        component: Search
       }
     ]
   }

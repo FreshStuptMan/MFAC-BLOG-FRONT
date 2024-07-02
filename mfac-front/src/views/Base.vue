@@ -19,10 +19,9 @@
             <vs-navbar-item index="3">
                 <router-link to="/Manager" style="font-size: 30px;">我的</router-link>
             </vs-navbar-item>
-            <vs-input v-on:icon-click="handleBlogSearch" size="default" style="margin-bottom: 15px;margin-right: 15px;margin-left: 200px;" icon-pack="fa"
+            <vs-input ref="searchInput" v-on:icon-click="handleBlogSearch" size="default" style="margin-bottom: 15px;margin-right: 15px;margin-left: 200px;" icon-pack="fa"
                 icon-after="true" label-placeholder="icon-after" icon="fa-search" placeholder="搜索博客" v-model="search">
             </vs-input>
-            <vs-button @click="handleSearchReset" color="danger" type="line" style="margin-right: 30px;">重置</vs-button>
             <vs-dropdown style="margin-right: 20px;" v-if="true">
                 <a class="a-icon" href="#">
                     <vs-avatar size="large" src="https://avatars2.githubusercontent.com/u/31676496?s=460&v=4" />
@@ -71,6 +70,10 @@ export default {
                 console.log(1)
                 return
             }
+            // 获取vs-input中的那个input
+            this.$refs.searchInput.$el.querySelector('input').blur()
+            this.$router.push('/Search')
+            this.search = ''
             console.log("搜索博客"+this.search) 
         },
         // 重置搜索

@@ -60,6 +60,7 @@ export default {
         // 点击前往博客详情
         handleClick() {
             console.log("前往博客详情")
+            this.$router.push('/BlogDetail')
         }
     }
 }
