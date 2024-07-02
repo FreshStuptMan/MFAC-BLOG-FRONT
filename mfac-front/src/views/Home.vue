@@ -112,6 +112,10 @@ export default {
   watch: {
     // 处理分页
     pageNum(newValue, oldValue) {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
       console.log("发出分页请求")
     }
   },

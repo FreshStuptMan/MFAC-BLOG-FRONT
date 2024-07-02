@@ -6,7 +6,6 @@ import Classify from '@/views/Classify.vue'
 import Tag from '@/views/Tag.vue'
 import Manager from '@/views/Manager.vue'
 
-
 Vue.use(VueRouter)
 
 const routes = [

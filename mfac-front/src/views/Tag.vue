@@ -52,6 +52,10 @@ export default {
   },
   watch: {
     pageNum(newValue, oldValue) {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
       console.log("处理分页")
     }
   },

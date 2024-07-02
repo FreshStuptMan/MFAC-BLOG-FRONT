@@ -22,6 +22,7 @@
             <vs-input v-on:icon-click="handleBlogSearch" size="default" style="margin-bottom: 15px;margin-right: 15px;margin-left: 200px;" icon-pack="fa"
                 icon-after="true" label-placeholder="icon-after" icon="fa-search" placeholder="搜索博客" v-model="search">
             </vs-input>
+            <vs-button @click="handleSearchReset" color="danger" type="line" style="margin-right: 30px;">重置</vs-button>
             <vs-dropdown style="margin-right: 20px;" v-if="true">
                 <a class="a-icon" href="#">
                     <vs-avatar size="large" src="https://avatars2.githubusercontent.com/u/31676496?s=460&v=4" />
@@ -37,7 +38,9 @@
             </vs-dropdown>
             <vs-button @click="handleLoginClick" style="margin-right: 20px;" v-else color="danger" type="flat">登录</vs-button>
         </vs-navbar>
-        <router-view></router-view>
+        <transition name="fade" mode="out-in">
+            <router-view></router-view>
+        </transition>
     </div>
 </template>
 
@@ -69,9 +72,23 @@ export default {
                 return
             }
             console.log("搜索博客"+this.search)
-        }
+        },
+        // 重置搜索
+        handleSearchReset() {}
     }
 }
 </script>
 
-<style lang="less"></style>
+<style lang="less">
+.slide-fade-enter-active {
+  transition: all 0.5s ease;
+}
+.slide-fade-leave-active {
+  transition: all 0.5s ease;
+  position: absolute;
+}
+.slide-fade-enter, .slide-fade-leave-to {
+  transform: translateX(10px);
+  opacity: 0;
+}
+</style>
