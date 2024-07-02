@@ -71,7 +71,7 @@ export default {
                 console.log(1)
                 return
             }
-            console.log("搜索博客"+this.search)
+            console.log("搜索博客"+this.search) 
         },
         // 重置搜索
         handleSearchReset() {}
