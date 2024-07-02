@@ -216,6 +216,7 @@ export default {
         },
         // 编辑博客
         handleEdit(blog) {
+            this.$emit('edit-blog')
             console.log("编辑博客")
         },
         // 发布博客
@@ -231,7 +232,9 @@ export default {
             console.log("删除博客")
         },
         // 创建博客
-        handleCreate() {}
+        handleCreate() {
+            this.$emit('create-blog')
+        }
     }
 }
 </script>
