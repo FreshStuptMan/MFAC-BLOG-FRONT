@@ -4,8 +4,7 @@ import Base from '@/views/Base.vue'
 import Home from '@/views/Home.vue'
 import Classify from '@/views/Classify.vue'
 import Tag from '@/views/Tag.vue'
-import App from '@/App.vue'
-import BlogDetail from '@/views/BlogDetail.vue'
+import Manager from '@/views/Manager.vue'
 
 
 Vue.use(VueRouter)
@@ -30,6 +29,11 @@ const routes = [
         path: '/Tag',
         name: Tag,
         component: Tag
+      },
+      {
+        path: '/Manager',
+        name: Manager,
+        component: Manager
       }
     ]
   }

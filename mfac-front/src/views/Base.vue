@@ -17,7 +17,7 @@
                 <router-link to="/Tag" style="font-size: 30px;">标签</router-link>
             </vs-navbar-item>
             <vs-navbar-item index="3">
-                <router-link to="/Home" style="font-size: 30px;">我的</router-link>
+                <router-link to="/Manager" style="font-size: 30px;">我的</router-link>
             </vs-navbar-item>
             <vs-input v-on:icon-click="handleBlogSearch" size="default" style="margin-bottom: 15px;margin-right: 15px;margin-left: 200px;" icon-pack="fa"
                 icon-after="true" label-placeholder="icon-after" icon="fa-search" placeholder="搜索博客" v-model="search">
