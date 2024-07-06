@@ -7,6 +7,8 @@ import Tag from '@/views/Tag.vue'
 import Manager from '@/views/Manager.vue'
 import BlogDetail from '@/views/BlogDetail.vue'
 import Search from '@/views/Search.vue'
+import store from '@/store'
+import { Message } from 'element-ui';
 Vue.use(VueRouter)
 
 const routes = [
@@ -54,4 +56,28 @@ const router = new VueRouter({
   routes
 })
 
+
+router.beforeEach((to, from, next) => {
+  if(to.fullPath !== '/Manager') {
+    next()
+    return
+  }
+  let token = store.state.user.userInfo.token
+  if(token) {
+    // 如果token存在
+    if(token !== '') {
+      next()
+      return
+    } else {
+      next(from.fullPath)
+      Message.error("需要登录才能访问")
+      return
+    }
+  } else {
+    // 如果token不存在
+    next(from.fullPath)
+    Message.error("需要登录才能访问")
+    return
+  }
+})
 export default router

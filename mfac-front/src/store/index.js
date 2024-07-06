@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import user from './user'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    Manager_Tab: ''
+    Manager_Tab: '',
   },
   getters: {
   },
@@ -20,5 +21,6 @@ export default new Vuex.Store({
     }
   },
   modules: {
+    user
   }
 })

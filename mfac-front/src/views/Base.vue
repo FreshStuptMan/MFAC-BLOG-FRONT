@@ -22,7 +22,7 @@
             <vs-input ref="searchInput" v-on:icon-click="handleBlogSearch" size="default" style="margin-bottom: 15px;margin-right: 15px;margin-left: 200px;" icon-pack="fa"
                 icon-after="true" label-placeholder="icon-after" icon="fa-search" placeholder="搜索博客" v-model="search">
             </vs-input>
-            <vs-dropdown style="margin-right: 20px;" v-if="true">
+            <vs-dropdown style="margin-right: 20px;" v-if="token !== ''">
                 <a class="a-icon" href="#">
                     <vs-avatar size="large" src="https://avatars2.githubusercontent.com/u/31676496?s=460&v=4" />
                 </a>
@@ -30,7 +30,7 @@
                     <vs-dropdown-item @click="handleEditPersonalInfo">
                         修改信息
                     </vs-dropdown-item>
-                    <vs-dropdown-item divider>
+                    <vs-dropdown-item @click="handleLoginOff" divider>
                         注销
                     </vs-dropdown-item>
                 </vs-dropdown-menu>
@@ -55,12 +55,32 @@
 </template>
 
 <script>
+import axios from 'axios'
+import { removeUserInfo } from '@/util/storage'
 export default {
     name: 'Base',
+    watch: {
+        indexActive(newValue, oldValue) {
+            if(newValue === '3') {
+                console.log(this.$route.path)
+                if(this.$route.path === '/'){
+                    this.indexActive = '0'
+                } else if (this.$route.path === '/Classify'){
+                    this.indexActive = '1'
+                } else if(this.$route.path === '/Tag') {
+                    this.indexActive = '2'
+                }
+            }
+        }
+    },
+    computed: {
+        token() {
+            return this.$store.state.user.userInfo.token ? this.$store.state.user.userInfo.token : ''
+        }
+    },
     data() {
         return {
-            activeItem: 0,
-            indexActive: 0,
+            indexActive: '0',
             search: '',
             loginForm: {
                 account: '',
@@ -107,10 +127,70 @@ export default {
         },
         // 发起登录
         acceptLogin() {
-            this.cancelLogin()
+            if(!this.loginFormVaify()) {
+                return
+            }
+            // 发送登录请求
+            axios.post('/api/login', this.loginForm)
+            .then(response => {
+                if(response.data.code === 200) {
+                    // 保存登录用户的token
+                    this.$store.commit('user/setUserInfo', response.data.data)
+                    this.$vs.notify({
+                        title: '提示',
+                        text: '登录成功',
+                        color: 'success'
+                    })
+                    this.cancelLogin()
+                } else {
+                    this.$vs.notify({
+                        title:'提示',
+                        text: response.data.msg,
+                        color:'red'
+                    })
+                }
+            })
+            .catch(error => {
+                this.$vs.notify({
+                    title:'Notify',
+                    text: error,
+                    color:'red'
+                })
+            })
         },
+        // 取消登录
         cancelLogin() {
             this.loginPopVis = false
+        },
+        // 登录表单校验
+        loginFormVaify() {
+            if(this.loginForm.account === '' || this.loginForm.password === '') {
+                this.$vs.notify({title:'提交失败',text:'请填写完整的用户消息',color:'red'})
+                return false
+            }
+            if(this.loginForm.password.length < 6) {
+                this.$vs.notify({title:'提交失败',text:'密码不能少于6位',color:'red'})
+                return false
+            }
+            return true
+        },
+        // 注销登录
+        handleLoginOff() {
+            removeUserInfo()
+            this.$store.commit('user/setUserInfo', '')
+        }
+    },
+    mounted() {
+        if(this.$route.path === '/'){
+            this.indexActive = '0'
+        } else if (this.$route.path === '/Classify'){
+            this.indexActive = '1'
+        } else if(this.$route.path === '/Tag') {
+            this.indexActive = '2'
+        } else if(this.$route.path === '/Manager') {
+            this.indexActive = '3'
+        } else {
+            this.indexActive = '4'
         }
     }
 }
