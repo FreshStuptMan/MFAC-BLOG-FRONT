@@ -24,7 +24,8 @@
             </vs-input>
             <vs-dropdown style="margin-right: 20px;" v-if="token !== ''">
                 <a class="a-icon" href="#">
-                    <vs-avatar size="large" src="https://avatars2.githubusercontent.com/u/31676496?s=460&v=4" />
+                    <!-- <vs-avatar size="large" src="https://avatars2.githubusercontent.com/u/31676496?s=460&v=4" /> -->
+                    <vs-avatar size="large" :src="UserDetail.avatar" />
                 </a>
                 <vs-dropdown-menu style="width: 100px;">
                     <vs-dropdown-item @click="handleEditPersonalInfo">
@@ -86,7 +87,8 @@ export default {
                 account: '',
                 password: ''
             },
-            loginPopVis: false
+            loginPopVis: false,
+            UserDetail: {}
         }
     },
     methods: {
@@ -141,6 +143,7 @@ export default {
                         text: '登录成功',
                         color: 'success'
                     })
+                    this.GetUserInfo()
                     this.cancelLogin()
                 } else {
                     this.$vs.notify({
@@ -178,7 +181,27 @@ export default {
         handleLoginOff() {
             removeUserInfo()
             this.$store.commit('user/setUserInfo', '')
-        }
+        },
+        // 获取用户信息
+        GetUserInfo() {
+            // if(this.$store.state.user.userInfo.token) {
+            //     return
+            // }
+            // if(this.$store.state.user.userInfo.token === '') {
+            //     return
+            // }
+            axios.get('/api/admin/user/detail', {
+                headers: {token: this.$store.state.user.userInfo.token}
+            })
+            .then(response => {
+                if(response.data.code === 200) {
+                    console.log(response)
+                    this.UserDetail = response.data.data
+                }
+            })
+            .catch(error => {
+            })
+        },
     },
     mounted() {
         if(this.$route.path === '/'){
@@ -192,6 +215,7 @@ export default {
         } else {
             this.indexActive = '4'
         }
+        this.GetUserInfo()
     }
 }
 </script>
