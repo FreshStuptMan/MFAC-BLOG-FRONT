@@ -7,10 +7,10 @@
             <div style="padding-top: 15px;width: 100%;height: 75px;">
                 <vs-row vs-align="center" vs-type="flex" vs-justify="space-around" vs-w="12">
                     <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="8">
-                        <vs-input style="width: 600px;" size="large" placeholder="请输入博客标题" v-model="createForm.title" />
+                        <vs-input style="width: 600px;" size="large" placeholder="请输入博客标题" v-model="editForm.title" />
                     </vs-col>
                     <vs-col vs-type="flex" vs-justify="left" vs-align="center" vs-w="3">
-                        <vs-select icon-pack="fa" icon="fa-chevron-up" placeholder="请选择博客类型" v-model="createForm.type">
+                        <vs-select icon-pack="fa" icon="fa-chevron-up" placeholder="请选择博客类型" v-model="editForm.types">
                             <vs-select-item :value="1" text="转载" />
                             <vs-select-item :value="2" text="原创" />
                         </vs-select>
@@ -19,7 +19,7 @@
             </div>
             <!-- 博客正文 -->
             <div style="width: 100%;padding-left: 10px;padding-right: 10px;">
-                <BlogEditorVue></BlogEditorVue>
+                <BlogEditorVue ref="blogEditor"></BlogEditorVue>
             </div>
             <vs-divider color="#ad289f"></vs-divider>
             <!-- 博客类型与标签 -->
@@ -28,32 +28,24 @@
                     <!-- 博客分类 -->
                     <vs-col style="height: 100%;" vs-type="flex" vs-justify="center" vs-align="center" vs-w="3">
                         <vs-select icon-pack="fa" icon="fa-chevron-up" placeholder="请选择博客分类"
-                            v-model="createForm.classifyId">
-                            <vs-select-item :value="1" text="分类1" />
-                            <vs-select-item :value="2" text="分类1" />
-                            <vs-select-item :value="3" text="分类1" />
-                            <vs-select-item :value="4" text="分类1" />
+                            v-model="editForm.classifyId">
+                            <vs-select-item v-for="classify in classifys" :key="classify.id" :value="classify.id" :text="classify.name" />
                         </vs-select>
                     </vs-col>
                     <!-- 博客标签 -->
                     <vs-col style="height: 100%;" vs-type="flex" vs-justify="center" vs-align="center" vs-w="3">
-                        <el-select size="small" v-model="createForm.tagIds" :multiple-limit="3" multiple
+                        <el-select size="small" v-model="editForm.tagIds" :multiple-limit="3" multiple
                             placeholder="请选择标签(最多3个)">
-                            <el-option label="item1.label" :value="1">
-                            </el-option>
-                            <el-option label="item.2label" :value="2">
-                            </el-option>
-                            <el-option label="item3.label" :value="3">
-                            </el-option>
-                            <el-option label="item.4label" :value="4">
+                            <el-option v-for="tag in tags" :key="tag.id" :label="tag.name" :value="tag.id">
                             </el-option>
                         </el-select>
                     </vs-col>
                 </vs-row>
             </div>
             <!-- 博客首图 -->
-            <div style="width: 100%;height: 100px;padding-left: 125px;">
-                <el-upload ref="avatarUpload" action="/api/image" :on-remove="handleAvatarRemove"
+            <div style="width: 100%;height: 160px;padding-left: 125px;padding-right: 30px;">
+                <el-upload ref="avatarUpload" action="/api/admin/file/image" :on-remove="handleAvatarRemove"
+                    :headers="headers"
                     :on-success="handleAvatarSuccess" :on-exceed="handleAvatarExceed" :on-error="handleAvatarError"
                     :auto-upload="false" :file-list="avatarFile" :limit="1" list-type="picture">
                     <el-button slot="trigger" size="small" type="primary">选择博客首图</el-button>
@@ -65,7 +57,7 @@
             <!-- 博客描述 -->
             <div style="width: 100%;padding-left: 30px;padding-right: 30px;">
                 <vs-textarea counter="20" label="博客描述: 20" :counter-danger.sync="counterDanger"
-                    v-model="createForm.description" />
+                    v-model="editForm.description" />
             </div>
             <!-- 操作 -->
             <div style="width: 100%;height: 50px;">
@@ -85,34 +77,69 @@
 </template>
 
 <script>
+import axios from 'axios'
 import BlogEditorVue from './BlogEditor.vue'
 export default {
+    props: ['id'],
+    computed: {
+        token() {
+            return this.$store.state.user.userInfo.token ? this.$store.state.user.userInfo.token : ''
+        },
+        headers() {
+            return {token: this.token}
+        }
+    },
     components: {
         BlogEditorVue
     },
     data() {
         return {
-            createForm: {
+            // 博客信息
+            blogDetail: {},
+            // 编辑表单
+            editForm: {
+                id: '',
                 title: '',
-                type: null,
+                types: null,
                 content: '',
                 classifyId: null,
                 tagIds: [],
                 avatar: '',
-                description: ''
+                description: '',
+                status: null
             },
+            // 博客描述字数
             counterDanger: false,
             // 上传的头像
-            avatarFile: []
+            avatarFile: [],
+            // 分类列表
+            classifys: [],
+            // 标签列表
+            tags: []
         }
     },
     methods: {
         /** 头像上传相关 */
         // 移除
-        handleAvatarRemove(file, fileList) { },
+        handleAvatarRemove(file, fileList) {
+            this.editForm.avatar = ''
+        },
         // 上传成功
         handleAvatarSuccess(response, file, fileList) {
-            console.log(response)
+            if(response.code === 200) {
+                this.$vs.notify({
+                    title: '提示',
+                    text: '上传成功',
+                    color: 'success'
+                })
+                this.editForm.avatar = response.data
+            } else {
+                this.$vs.notify({
+                    title: '提示',
+                    text: response.data.msg,
+                    color: 'red'
+                })
+            }
         },
         // 确定上传
         uploadAvatar() {
@@ -120,20 +147,260 @@ export default {
         },
         // 图片超限
         handleAvatarExceed() {
-            console.log("图片数量超限")
+            this.$vs.notify({
+                title: '提示',
+                text: '只能上传一张博客首图',
+                color: 'red'
+            })
         },
         // 上传失败
         handleAvatarError(err, file, fileList) {
-            console.log(err)
+            this.$vs.notify({
+                title: '提示',
+                text: err,
+                color: 'red'
+            })
         },
+
+
+        // 获取分类列表
+        GetClassifyList() {
+            axios.get('/api/classify/listAll')
+            .then(response => {
+                if(response.data.code === 200) {
+                    this.classifys = response.data.data
+                } else {
+                    this.$vs.notify({
+                        title: '提示',
+                        text: response.data.msg,
+                        color: 'red'
+                    })
+                }
+            })
+            .catch(error => {
+                this.$vs.notify({
+                    title: '提示',
+                    text: error,
+                    color: 'red'
+                })
+            })
+        },
+        // 获取标签列表
+        GetTagList() {
+            axios.get('/api/tag/listAll')
+            .then(response => {
+                if(response.data.code === 200) {
+                    this.tags = response.data.data
+                } else {
+                    this.$vs.notify({
+                        title: '提示',
+                        text: response.data.msg,
+                        color: 'red'
+                    })
+                }
+            })
+            .catch(error => {
+                this.$vs.notify({
+                    title: '提示',
+                    text: error,
+                    color: 'red'
+                })
+            })
+        },
+        // 获取博客详情
+        GetBlogDetail() {
+            axios.get(`/api/admin/blog/detail/${this.id}`, {
+                headers: {token: this.token}
+            })
+            .then(response => {
+                if(response.data.code === 200) {
+                    this.blogDetail = response.data.data
+                    this.handleInit()
+                    this.$refs.blogEditor.initForUpdate(this.editForm.content)
+                } else {
+                    this.$vs.notify({
+                        title: '提示',
+                        text: response.data.msg,
+                        color: 'red'
+                    })
+                }
+            })
+            .catch(error => {
+                this.$vs.notify({
+                    title: '提示',
+                    text: error,
+                    color: 'red'
+                })
+            })
+        },
+        // 表单初始化
+        handleInit() {
+            this.editForm.id = this.blogDetail.id
+            this.editForm.title = this.blogDetail.title
+            this.editForm.types = this.blogDetail.types
+            this.editForm.avatar = this.blogDetail.avatar
+            this.avatarFile = [{name: 'avatar',url: this.editForm.avatar}]
+            this.editForm.content = this.blogDetail.content
+            this.editForm.classifyId = this.blogDetail.classifyId
+            this.blogDetail.tags.forEach(tag => {
+                this.editForm.tagIds.push(tag.id)
+            })
+            this.editForm.description = this.blogDetail.description
+        },
+
+
+
         // 取消
         handleCancel() {
-            this.$emit('create-cancel')
+            this.handleReset()
+            this.$emit('edit-cancel')
         },
         // 保存
-        handleSave() { },
+        handleSave() {
+            this.editForm.content = this.$refs.blogEditor.getContent()
+            this.editForm.status = 1
+            if(!this.editFormVarify()) {
+                return
+            }
+            this.handleUpdateBlog()
+        },
         // 发布
-        handlePublish() { }
+        handlePublish() {
+            this.editForm.content = this.$refs.blogEditor.getContent()
+            this.editForm.status = 2
+            if(!this.editFormVarify()) {
+                return
+            }
+            this.handleUpdateBlog()
+        },
+        // 更新
+        handleUpdateBlog() {
+            axios.post('/api/admin/blog/update', this.editForm, {
+                headers: {token: this.token}
+            })
+            .then(response => {
+                if(response.data.code === 200) {
+                    this.$vs.notify({
+                        title: '提示',
+                        text: '更新成功',
+                        color: 'success'
+                    })
+                    this.handleReset()
+                    this.$emit('edit-success')
+                } else {
+                    this.$vs.notify({
+                        title: '提示',
+                        text: response.data.msg,
+                        color: 'red'
+                    })
+                }
+            })
+            .catch(error => {
+                this.$vs.notify({
+                    title: '提示',
+                    text: error,
+                    color: 'red'
+                })
+            })
+        },
+
+
+        // 编辑表单校验
+        editFormVarify() {
+            if(this.editForm.content === '') {
+                this.$vs.notify({
+                    title: '提示',
+                    text: '博客内容不能为空',
+                    color: 'red'
+                })
+                return false
+            }
+
+            if(this.editForm.title === '') {
+                this.$vs.notify({
+                    title: '提示',
+                    text: '博客标题不能为空',
+                    color: 'red'
+                })
+                return false
+            }
+            
+            if(this.editForm.types === null) {
+                this.$vs.notify({
+                    title: '提示',
+                    text: '请选择博客类型',
+                    color: 'red'
+                })
+                return false
+            }
+
+            if(this.editForm.classifyId === null) {
+                this.$vs.notify({
+                    title: '提示',
+                    text: '请选择博客分类',
+                    color: 'red'
+                })
+                return false
+            }
+
+            if(this.editForm.tagIds.length === 0) {
+                this.$vs.notify({
+                    title: '提示',
+                    text: '请选择博客标签',
+                    color: 'red'
+                })
+                return false
+            }
+
+            if(this.editForm.avatar === '') {
+                this.$vs.notify({
+                    title: '提示',
+                    text: '请上传博客首图',
+                    color: 'red'
+                })
+                return false
+            }
+
+            if(this.editForm.description === '') {
+                this.$vs.notify({
+                    title: '提示',
+                    text: '博客描述不能为空',
+                    color: 'red'
+                })
+                return false
+            }
+
+            if(this.editForm.description.length > 20) {
+                this.$vs.notify({
+                    title: '提示',
+                    text: '博客描述不能超过20字',
+                    color: 'red'
+                })
+                return false
+            }
+
+            return true
+        },
+        // 重置表单
+        handleReset() {
+            this.editForm.id = ''
+            this.editForm.title = ''
+            this.editForm.types = null
+            this.editForm.content = ''
+            this.editForm.classifyId = null
+            this.editForm.tagIds = []
+            this.editForm.avatar = ''
+            this.editForm.description = ''
+            this.editForm.status = null
+            this.$refs.blogEditor.clearContent()
+        },
+
+    },
+    mounted() {
+        // 获取博客详情
+        this.GetBlogDetail()
+        this.GetClassifyList()
+        this.GetTagList()
     }
 }
 </script>

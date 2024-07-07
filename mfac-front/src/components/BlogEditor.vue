@@ -3,7 +3,7 @@
         <div style="min-height: 600px;max-height: auto;" ref="editor"></div>
 
         <div>
-            <el-upload action="/api/image" :on-success="handleUploadSuccess" name="file" :show-file-list="false"
+            <el-upload action="/api/admin/file/image" :headers="headers" :on-success="handleUploadSuccess" name="file" :show-file-list="false"
                 style="display: none" ref="upload" v-if="this.uploadUrl">
             </el-upload>
         </div>
@@ -17,6 +17,14 @@ import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
 
 export default {
+    computed: {
+        token() {
+            return this.$store.state.user.userInfo.token ? this.$store.state.user.userInfo.token : ''
+        },
+        headers() {
+            return {token: this.token}
+        }
+    },
     data() {
         return {
             uploadUrl: 'api/image',
@@ -71,7 +79,6 @@ export default {
                 const text = this.Quill.getText();
                 const quill = this.Quill;
                 this.currentValue = html;
-
             })
         },
         handleUploadSuccess(res, file) {
@@ -79,15 +86,19 @@ export default {
             let quill = this.Quill;
             // 如果上传成功
             console.log(res)
-            if (res.status === 200) {
+            if (res.code === 200) {
                 // 获取光标所在位置
                 let length = quill.getSelection().index;
                 // 插入图片  res.url为服务器返回的图片地址
-                quill.insertEmbed(length, "image", res.data);
+                quill.insertEmbed(length, "image", res.data)
                 // 调整光标到最后
-                quill.setSelection(length + 1);
+                quill.setSelection(length + 1)
             } else {
-                this.$message.error(res.message);
+                this.$vs.notify({
+                    title: '提示',
+                    text: res.msg,
+                    color: 'red'
+                })
             }
         },
         getContent() {
@@ -96,11 +107,11 @@ export default {
         clearContent() {
             this.currentValue = ""
             this.Quill.clipboard.dangerouslyPasteHTML(this.currentValue)
+        },
+        initForUpdate(content) {
+            this.currentValue = content
+            this.init()
         }
-
-    },
-    mounted() {
-        this.init()
     }
 }
 </script>

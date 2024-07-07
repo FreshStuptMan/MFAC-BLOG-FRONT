@@ -4,9 +4,13 @@
       <vs-tab label="博客管理">
         <div>
           <component 
+            @edit-cancel="handleEditCancel"
+            @edit-success="handleEditSuccess"
             @edit-blog="handleEditBlog"
             @create-cancel="handleCreateCancel"
+            @create-success="handleCreateSuccess"
             @create-blog="handleCreateBlog"
+            :id="blogId"
             :is="currentComponent">
           </component>
         </div>
@@ -49,7 +53,8 @@ export default {
   data() {
     return {
       currentComponent: 'BlogManagerVue',
-      activeTab: '0'
+      activeTab: '0',
+      blogId: null
     }
   },
   methods: {
@@ -61,9 +66,26 @@ export default {
     handleCreateCancel() {
       this.currentComponent = 'BlogManagerVue'
     },
+    // 创建成功
+    handleCreateSuccess() {
+      this.currentComponent = 'BlogManagerVue'
+    },
+
+
     // 编辑博客
-    handleEditBlog() {
+    handleEditBlog(id) {
+      this.blogId = id
       this.currentComponent = 'BlogManager_EditBlogVue'
+    },
+    // 取消编辑
+    handleEditCancel() {
+      this.blogId = null
+      this.currentComponent = 'BlogManagerVue'
+    },
+    // 编辑成功
+    handleEditSuccess() {
+      this.blogId = null
+      this.currentComponent = 'BlogManagerVue'
     },
     // 处理导航栏跳转至个人信息修改
     handleTranPersonalInfo() {

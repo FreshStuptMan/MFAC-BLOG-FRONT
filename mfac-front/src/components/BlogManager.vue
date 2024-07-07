@@ -4,18 +4,20 @@
         <!-- 搜索表单 -->
         <div style="display: flex;padding-left: 25px;padding-top: 10px;width: 920px;height: 75px;">
             <!-- 博客标题 -->
-            <vs-input width="150px" label="博客标题"  icon-pack="fa" icon="fa-search" placeholder="博客名称" v-model="SearchForm.name"/>
+            <vs-input width="150px" label="博客标题"  icon-pack="fa" icon="fa-search" placeholder="博客标题" v-model="SearchForm.title"/>
             <!-- 博客分类 -->
             <vs-select placeholder="博客分类" width="150px" style="margin-left: 5px;" label="博客分类" icon-pack="fa" icon="fa-angle-down" v-model="SearchForm.classifyId">
-                <vs-select-item :key="index" :value="item.value" :text="item.text" v-for="item,index in options" />
+                <vs-select-item :key="classify.id" :value="classify.id" :text="classify.name" v-for="classify in classifys" />
             </vs-select>
             <!-- 博客标签 -->
             <vs-select placeholder="博客标签" width="150px" style="margin-left: 5px;" label="博客标签" icon-pack="fa" icon="fa-angle-down" v-model="SearchForm.tagId">
-                <vs-select-item :key="index" :value="item.value" :text="item.text" v-for="item,index in options" />
+                <vs-select-item :key="tag.id" :value="tag.id" :text="tag.name" v-for="tag in tags" />
             </vs-select>
             <!-- 博客状态 -->
             <vs-select placeholder="博客状态" width="100px" style="margin-left: 5px;" label="博客状态" icon-pack="fa" icon="fa-angle-down" v-model="SearchForm.status">
-                <vs-select-item :key="index" :value="item.value" :text="item.text" v-for="item,index in options" />
+                <vs-select-item :value="1" text="草稿" />
+                <vs-select-item :value="2" text="已发布" />
+                <vs-select-item :value="3" text="已下架" />
             </vs-select>
             <!-- 搜索 -->
             <vs-button @click="handleSearch" size="small" style="width: 75px;height: 35px;margin-right: 5px;margin-left: 10px;margin-top: 15px;" color="#c72a75" type="filled">搜索博客</vs-button>
@@ -65,8 +67,8 @@
                             {{ blog.classifyName }}
                         </vs-td>
 
-                        <vs-td style="text-align: center;" :data="blog.type">
-                            {{ blog.type === 1 ? '转载' : '原创' }}
+                        <vs-td style="text-align: center;" :data="blog.types">
+                            {{ blog.types === 1 ? '转载' : '原创' }}
                         </vs-td>
 
                         <vs-td style="text-align: center;" :data="blog.authorName">
@@ -95,146 +97,262 @@
                     </vs-tr>
                 </template>
             </vs-table>
-             <!-- 分页 -->
-            <vs-pagination style="margin-top: 20px;" prev-icon="fa-angle-double-left"
-                next-icon="fa-angle-double-right" icon-pack="fa" :total="30" :max="pageSize" v-model="pageNum">
-            </vs-pagination>
+            <!-- 分页 -->
+            <el-pagination style="float: right;margin-top: 20px;" background layout="prev, pager, next" @current-change="handlePageChange"
+                :page-size="pageSize" :current-page="pageNum" :total="total">
+            </el-pagination>
+            <!-- 删除二次确认弹窗 -->
+            <vs-popup
+                title="提示" :active.sync="deletePopVis">
+                <p>
+                    确定要删除吗？
+                </p>
+                <div style="float: right;">
+                    <vs-button @click="acceptDelete" style="margin-right: 10px;" color="danger" type="filled">确定</vs-button>
+                    <vs-button @click="cancelDelete" color="warning" type="filled">取消</vs-button>
+                </div>
+            </vs-popup>
         </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
-    watch: {
-        pageNum(newValue, oldValue) {
-            console.log("进行分页")
+    computed: {
+        token() {
+            return this.$store.state.user.userInfo.token ? this.$store.state.user.userInfo.token : ''
         }
     },
     data() {
         return {
             // 搜索表单
             SearchForm: {
-                name: '',
+                title: '',
                 tagId: null,
                 classifyId: null,
                 status: null,
             },
-            // Select测试数据
-            options:[
-                {text:'IT',value:0},
-                {text:'Blade Runner',value:2},
-                {text:'Thor Ragnarok',value:3},
-            ],
             // 表格测试数据
-            blogs: [{
-                id: 1,
-                title: '博客标题博客标题博客标题',
-                classifyName: '博客分类博客分类',
-                type: 0,
-                authorName: '作者名称作者名称作者名称',
-                createTime: '2024-12-21 12:33:33',
-                updateTime: '2024-12-21 12:33:33',
-                status: 1,
-            },{
-                id: 2,
-                title: '博客标题博客标题博客标题',
-                classifyName: '博客分类博客分类',
-                type: 0,
-                authorName: '作者名称作者名称作者名称',
-                createTime: '2024-12-21 12:33:33',
-                updateTime: '2024-12-21 12:33:33',
-                status: 1,
-            },{
-                id: 3,
-                title: '博客标题博客标题博客标题',
-                classifyName: '博客分类博客分类',
-                type: 0,
-                authorName: '作者名称作者名称作者名称',
-                createTime: '2024-12-21 12:33:33',
-                updateTime: '2024-12-21 12:33:33',
-                status: 1,
-            },{
-                id: 4,
-                title: '博客标题博客标题博客标题',
-                classifyName: '博客分类博客分类',
-                type: 0,
-                authorName: '作者名称作者名称作者名称',
-                createTime: '2024-12-21 12:33:33',
-                updateTime: '2024-12-21 12:33:33',
-                status: 1,
-            },{
-                id: 5,
-                title: '博客标题博客标题博客标题',
-                classifyName: '博客分类博客分类',
-                type: 0,
-                authorName: '作者名称作者名称作者名称',
-                createTime: '2024-12-21 12:33:33',
-                updateTime: '2024-12-21 12:33:33',
-                status: 1,
-            },{
-                id: 6,
-                title: '博客标题博客标题博客标题',
-                classifyName: '博客分类博客分类',
-                type: 1,
-                authorName: '作者名称作者名称作者名称',
-                createTime: '2024-12-21 12:33:33',
-                updateTime: '2024-12-21 12:33:33',
-                status: 3,
-            },{
-                id: 7,
-                title: '博客标题博客标题博客标题',
-                classifyName: '博客分类博客分类',
-                type: 0,
-                authorName: '作者名称作者名称作者名称',
-                createTime: '2024-12-21 12:33:33',
-                updateTime: '2024-12-21 12:33:33',
-                status: 1,
-            },{
-                id: 8,
-                title: '博客标题博客标题博客标题',
-                classifyName: '博客分类博客分类',
-                type: 0,
-                authorName: '作者名称作者名称作者名称',
-                createTime: '2024-12-21 12:33:33',
-                updateTime: '2024-12-21 12:33:33',
-                status: 2,
-            }],
+            blogs: [],
+            // 被选择的博客
+            activeBlog: {},
             // 分页参数
             pageNum: 1,
-            pageSize: 8
+            pageSize: 8,
+            total: 0,
+            // 分类列表
+            classifys: [],
+            // 标签列表
+            tags: [],
+            //删除的二次确认弹窗控制
+            deletePopVis: false
         }
     },
     methods: {
+        handlePageChange(pageNum) {
+            this.pageNum = pageNum
+            this.GetBlogList()
+        },
         // 搜索
         handleSearch() {
-            console.log("搜索博客")
+            this.GetBlogList()
         },
         // 重置搜索表单
         handleReset() {
-            console.log("重置搜索表单")
+            this.SearchForm.title = ''
+            this.SearchForm.classifyId = null,
+            this.SearchForm.tagId = null,
+            this.SearchForm.status = null
+            this.GetBlogList()
         },
+
+
+
+        // 获取分类列表
+        GetClassifyList() {
+            axios.get('/api/classify/listAll')
+            .then(response => {
+                if(response.data.code === 200) {
+                    this.classifys = response.data.data
+                } else {
+                    this.$vs.notify({
+                        title: '提示',
+                        text: response.data.msg,
+                        color: 'red'
+                    })
+                }
+            })
+            .catch(error => {
+                this.$vs.notify({
+                    title: '提示',
+                    text: error,
+                    color: 'red'
+                })
+            })
+        },
+        // 获取标签列表
+        GetTagList() {
+            axios.get('/api/tag/listAll')
+            .then(response => {
+                if(response.data.code === 200) {
+                    this.tags = response.data.data
+                } else {
+                    this.$vs.notify({
+                        title: '提示',
+                        text: response.data.msg,
+                        color: 'red'
+                    })
+                }
+            })
+            .catch(error => {
+                this.$vs.notify({
+                    title: '提示',
+                    text: error,
+                    color: 'red'
+                })
+            })
+        },
+        // 获取博客列表
+        GetBlogList() {
+            axios.post('/api/admin/blog/list', {
+                pageSize: this.pageSize,
+                pageNum: this.pageNum,
+                title: this.SearchForm.title,
+                classifyId: this.SearchForm.classifyId,
+                tagId: this.SearchForm.tagId,
+                status: this.SearchForm.status
+            }, {
+                headers: {token: this.token}
+            })
+            .then(response => {
+                if(response.data.code === 200) {
+                    this.blogs = response.data.data.records
+                    this.total = response.data.data.total
+                } else {
+                    this.$vs.notify({
+                        title: '提示',
+                        text: response.data.msg,
+                        color: 'red'
+                    })
+                }
+            })
+            .catch(error => {
+                this.$vs.notify({
+                    title: '提示',
+                    text: error,
+                    color: 'red'
+                })
+            })
+        },
+
+
+
         // 编辑博客
         handleEdit(blog) {
-            this.$emit('edit-blog')
+            this.$emit('edit-blog', blog.id)
             console.log("编辑博客")
         },
+
+
+        
         // 发布博客
         handleUp(blog) {
-            console.log("发布博客")
+            this.handleChangeStatus(blog.id, 2)
         },
         // 下架博客
         handleDown(blog) {
-            console.log("下架博客")
+            this.handleChangeStatus(blog.id, 3)
         },
+        // 修改博客状态
+        handleChangeStatus(id, status) {
+            axios.post('/api/admin/blog/changeStatus', {
+                id,
+                status
+            }, {
+                headers: {token: this.token}
+            })
+            .then(response => {
+                if(response.data.code === 200) {
+                    this.$vs.notify({
+                        title: '提示',
+                        text: '状态更新成功',
+                        color: 'success'
+                    })
+                    this.GetBlogList()
+                } else {
+                    this.$vs.notify({
+                        title: '提示',
+                        text: response.data.msg,
+                        color: 'red'
+                    })
+                }
+            })
+            .catch(error => {
+                this.$vs.notify({
+                    title: '提示',
+                    text: error,
+                    color: 'red'
+                })
+            })
+        },
+
+
+
         // 删除博客
         handleDelete(blog) {
-            console.log("删除博客")
+            this.activeBlog = blog
+            this.deletePopVis = true
         },
+        // 确定删除
+        acceptDelete() {
+            axios.delete(`/api/admin/blog/delete/${this.activeBlog.id}`, {
+                headers: {token: this.token}
+            })
+            .then(response => {
+                if(response.data.code === 200) {
+                    this.$vs.notify({
+                        title: '提示',
+                        text: '删除成功',
+                        color: 'success'
+                    })
+                    this.GetBlogList()
+                } else {
+                    this.$vs.notify({
+                        title: '提示',
+                        text: response.data.msg,
+                        color: 'red'
+                    })
+                }
+            })
+            .catch(error => {
+                this.$vs.notify({
+                    title: '提示',
+                    text: error,
+                    color: 'red'
+                })
+            })
+            this.activeBlog = {}
+            this.deletePopVis = false
+        },
+        // 取消删除
+        cancelDelete() {
+            this.activeBlog = {}
+            this.deletePopVis = false
+        },
+
+
+
         // 创建博客
         handleCreate() {
             this.$emit('create-blog')
         }
+    },
+    mounted() {
+        this.GetClassifyList()
+        this.GetTagList()
+        this.GetBlogList()
     }
 }
 </script>
