@@ -117,7 +117,7 @@
                 </p>
                 <div style="float: right;">
                     <vs-button @click="acceptDelete" style="margin-right: 10px;" color="danger" type="filled">确定</vs-button>
-                    <vs-button @click="cancalDelete" color="warning" type="filled">取消</vs-button>
+                    <vs-button @click="cancelDelete" color="warning" type="filled">取消</vs-button>
                 </div>
             </vs-popup>
         </div>
@@ -307,7 +307,7 @@ export default {
             this.cancalDelete()
         },
         // 取消删除
-        cancalDelete() {
+        cancelDelete() {
             this.activeTag = {}
             this.deletePopVis = false
         },
