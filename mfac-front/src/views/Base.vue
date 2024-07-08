@@ -3,7 +3,7 @@
         <vs-navbar style="height: 80px;" color="#FEDFE1" v-model="indexActive" text-color="rgba(255,255,255,.6)"
             active-text-color="rgba(255,255,255,1)">
             <div slot="title">
-                <vs-navbar-title style="font-size: 60px;font-weight: bolder;">
+                <vs-navbar-title class="logo_style">
                     𝓜𝓕𝓐𝓒
                 </vs-navbar-title>
             </div>
@@ -219,6 +219,39 @@ export default {
 </script>
 
 <style lang="less">
+@keyframes logoColorCycle {
+  0% {
+    color: red;
+  }
+  16.6% {
+    color: purple;
+  }
+  33.3% {
+    color: pink;
+  }
+  50% {
+    color: blue;
+  }
+  66.6% {
+    color: pink;
+  }
+  83.3% {
+    color: purple;
+  }
+  100% {
+    color: red;
+  }
+}
+
+
+
+.logo_style{
+    animation: logoColorCycle 20s linear infinite;
+    font-size: 60px !important;
+    font-weight: bolder;
+}
+
+
 .slide-fade-enter-active {
   transition: all 0.5s ease;
 }
