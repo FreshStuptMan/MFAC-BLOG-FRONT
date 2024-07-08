@@ -38,7 +38,7 @@ const routes = [
         component: Manager
       },
       {
-        path: '/BlogDetail',
+        path: '/BlogDetail/:id',
         name: BlogDetail,
         component: BlogDetail
       },

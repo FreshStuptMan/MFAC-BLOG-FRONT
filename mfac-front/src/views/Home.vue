@@ -1,9 +1,9 @@
 <template>
   <div>
     <div style="top: 30px;width: 1800px;
-      left: 50%;margin-left: -900px;height: 2200px;
+      left: 50%;margin-left: -900px;max-height: 2200px;
       position: relative;">
-      <vs-row vs-w="12" style="height: 2000px;">
+      <vs-row vs-w="12" style="max-height: 2000px;">
         <!-- 博客列表 -->
         <vs-col vs-offset="0" vs-type="flex" vs-justify="center" vs-align="center" vs-w="8">
           <div
@@ -17,24 +17,18 @@
                 <vs-col style="font-size: 20px;font-weight: bold;" vs-type="flex" vs-justify="center" vs-align="center"
                   vs-w="3">
                   <span style="font-size: 25px;"> 𝓣𝓸𝓽𝓪𝓵：</span><span
-                    style="margin-left: 4px;margin-right: 4px;font-size: 27px;font-weight: bolder;">25</span>
+                    style="margin-left: 4px;margin-right: 4px;font-size: 27px;font-weight: bolder;">{{ total }}</span>
                 </vs-col>
               </vs-row>
               <vs-divider style="margin-top: 0px;" color="#DB4D6D"></vs-divider>
             </div>
             <!-- Content -->
             <div style="width: 100%;height: 100%;">
-              <BlogBlockVue></BlogBlockVue>
-              <BlogBlockVue></BlogBlockVue>
-              <BlogBlockVue></BlogBlockVue>
-              <BlogBlockVue></BlogBlockVue>
-              <BlogBlockVue></BlogBlockVue>
-              <BlogBlockVue></BlogBlockVue>
-              <div style="width: 400px;position: relative;left: 50%;margin-left: -200px;">
-                <vs-pagination style="margin-top: 20px;" prev-icon="fa-angle-double-left"
-                  next-icon="fa-angle-double-right" icon-pack="fa" :total="30" :max="pageSize" v-model="pageNum">
-                </vs-pagination>
-              </div>
+              <BlogBlockVue v-for="blog in blogs" :key="blog.id" :blog="blog"></BlogBlockVue>
+              <!-- 分页 -->
+              <el-pagination style="float: right;margin-top: 20px;" background layout="prev, pager, next" @current-change="handlePageChange"
+                :page-size="pageSize" :current-page="pageNum" :total="total">
+              </el-pagination>
             </div>
           </div>
         </vs-col>
@@ -58,19 +52,15 @@
             <!-- 最新博客 -->
             <div style="background-color: #FEDFE1;
               border-radius: 15px;padding-top: 20px;text-align: center;
-              width: 400px;height: 340px;
+              width: 400px;height: auto;
+              padding-bottom: 20px;
               box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
               position: relative;margin-left: -200px;left: 50%;">
               <h2>𝓝𝓮𝔀𝓮𝓼𝓽 𝓑𝓵𝓸𝓰𝓼</h2>
               <vs-divider color="#ad289f"></vs-divider>
-              <NewestBlogBlockVue></NewestBlogBlockVue>
-              <NewestBlogBlockVue></NewestBlogBlockVue>
-              <NewestBlogBlockVue></NewestBlogBlockVue>
-              <NewestBlogBlockVue></NewestBlogBlockVue>
-              <NewestBlogBlockVue></NewestBlogBlockVue>
-              <NewestBlogBlockVue></NewestBlogBlockVue>
+              <NewestBlogBlockVue v-for="blog in newestBlogList" :key="blog.id" :blog="blog"></NewestBlogBlockVue>
             </div>
-            <!-- 博客数量前十的分类与标签 -->
+            <!-- 随机分类与标签 -->
             <div style="background-color: #FEDFE1;
               border-radius: 15px;padding-top: 20px;
               text-align: center;
@@ -79,18 +69,14 @@
               margin-top: 30px;position: relative;margin-left: -200px;left: 50%;">
               <h2>𝓒𝓱𝓸𝓸𝓼𝓮 𝓨𝓸𝓾𝓻 𝓕𝓪𝓿𝓸𝓻</h2>
               <vs-divider color="#ad289f"></vs-divider>
-              <div style="display: flexbox;width: 350px;position: relative;left: 50%;margin-left: -175px;">
-                <ClassifyOrTagSiderBlockVue></ClassifyOrTagSiderBlockVue>
-                <ClassifyOrTagSiderBlockVue></ClassifyOrTagSiderBlockVue>
-                <ClassifyOrTagSiderBlockVue></ClassifyOrTagSiderBlockVue>
-                <ClassifyOrTagSiderBlockVue></ClassifyOrTagSiderBlockVue>
-                <ClassifyOrTagSiderBlockVue></ClassifyOrTagSiderBlockVue>
-                <ClassifyOrTagSiderBlockVue></ClassifyOrTagSiderBlockVue>
-                <ClassifyOrTagSiderBlockVue></ClassifyOrTagSiderBlockVue>
-                <ClassifyOrTagSiderBlockVue></ClassifyOrTagSiderBlockVue>
-                <ClassifyOrTagSiderBlockVue></ClassifyOrTagSiderBlockVue>
-                <ClassifyOrTagSiderBlockVue></ClassifyOrTagSiderBlockVue>
-              </div>
+              <ul style="list-style-type: none;display: flex;flex-wrap: wrap;width: 350px;position: relative;left: 50%;margin-left: -175px;">
+                <li v-for="classify in classifyList" :key="classify.id" style="min-width: auto;max-width: 100px;">
+                  <ClassifyOrTagSiderBlockVue :info="classify"></ClassifyOrTagSiderBlockVue>
+                </li>
+                <li v-for="tag in tagList" :key="tag.id" style="min-width: auto;max-width: 100px;">
+                  <ClassifyOrTagSiderBlockVue :info="tag"></ClassifyOrTagSiderBlockVue>
+                </li>
+              </ul>
             </div>
           </div>
         </vs-col>
@@ -103,6 +89,7 @@
 import BlogBlockVue from '@/components/BlogBlock.vue'
 import NewestBlogBlockVue from '@/components/NewestBlogBlock.vue'
 import ClassifyOrTagSiderBlockVue from '@/components/ClassifyOrTagSiderBlock.vue'
+import axios from 'axios'
 export default {
   components: {
     BlogBlockVue,
@@ -121,15 +108,126 @@ export default {
   },
   data() {
     return {
+      // 博客列表
+      blogs: [],
       // 分页相关
       pageNum: 1,
       pageSize: 6,
       total: 0,
-      newestBlogList: [{
-        title: 'CQUT',
-        publishTime: '2024-02-20 12:12:23'
-      }]
+      // 最新博客侧边栏数据
+      newestBlogList: [],
+      // 分类列表
+      classifyList: [],
+      // 标签列表
+      tagList: []
     }
+  },
+  methods: {
+    // 分页
+    handlePageChange(pageNum) {
+      this.pageNum = pageNum
+      this.GetBlogList()
+    },
+    // 获取博客列表
+    GetBlogList() {
+      axios.get(`/api/blog/list/${this.pageNum}/${this.pageSize}`)
+      .then(response => {
+        if(response.data.code === 200) {
+          this.blogs = response.data.data.records
+          this.total = response.data.data.total
+          console.log(response)
+        } else {
+          this.$vs.notify({
+            title: '提示',
+            text: response.data.msg,
+            color: 'red'
+          })
+        }
+      })
+      .catch(error => {
+        this.$vs.notify({
+            title: '提示',
+            text: error,
+            color: 'red'
+          })
+      })
+    },
+    // 获取最新博客列表
+    GetNewestBlogList() {
+      axios.get(`/api/blog/newest`)
+      .then(response => {
+        if(response.data.code === 200) {
+          this.newestBlogList = response.data.data
+        } else {
+          this.$vs.notify({
+            title: '提示',
+            text: response.data.msg,
+            color: 'red'
+          })
+        }
+      })
+      .catch(error => {
+        this.$vs.notify({
+          title: '提示',
+          text: error,
+          color: 'red'
+        })
+      })
+    },
+    // 随机获取5个分类
+    GetClassifyList() {
+      axios.get('/api/classify/random')
+      .then(response => {
+        if(response.data.code === 200) {
+          this.classifyList = response.data.data
+        } else {
+          this.$vs.notify({
+            title: '提示',
+            text: response.data.msg,
+            color: 'red'
+          })
+        }
+      })
+      .catch(error => {
+        this.$vs.notify({
+          title: '提示',
+          text: error,
+          color: 'red'
+        })
+      })
+    },
+    // 随机获取5个标签
+    GetTagList() {
+      axios.get('/api/tag/random')
+      .then(response => {
+        if(response.data.code === 200) {
+          this.tagList = response.data.data
+        } else {
+          this.$vs.notify({
+            title: '提示',
+            text: response.data.msg,
+            color: 'red'
+          })
+        }
+      })
+      .catch(error => {
+        this.$vs.notify({
+          title: '提示',
+          text: error,
+          color: 'red'
+        })
+      })
+    }
+  },
+  mounted() {
+    this.GetBlogList()
+    this.GetNewestBlogList()
+    this.GetClassifyList()
+    this.GetTagList()
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
   }
 }
 </script>

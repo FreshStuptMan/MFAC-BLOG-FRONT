@@ -4,12 +4,12 @@
             <vs-row style="width: 100%;height: 100%;" vs-type="flex" vs-justify="space-around">
                 <vs-col style="height: 100%;" vs-type="flex" vs-justify="center" vs-align="center" vs-w="6">
                     <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                        博客标题博客标题博客标题
+                        {{ blog.title }}
                     </p>
                 </vs-col>
                 <vs-col style="height: 100%;" vs-type="flex" vs-justify="center" vs-align="center" vs-w="4">
                     <vs-icon icon-pack="fa" icon="fa-calendar" color="red"></vs-icon>
-                    <span style="margin-left: 5px;">2024-12-25</span>
+                    <span style="margin-left: 5px;">{{ publishTime }}</span>
                 </vs-col>
             </vs-row>
         </div>
@@ -18,10 +18,20 @@
 
 <script>
 export default {
+    props: ['blog'],
+    computed: {
+        publishTime() {
+            const date = new Date(this.blog.publishTime);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based, so +1
+            const day = String(date.getDate()).padStart(2, '0');
+            return  `${year}-${month}-${day}`;
+        }
+    },
     methods: {
         // 点击前往博客详情
         handleClick() {
-            console.log("前往博客详情")
+            this.$router.push(`/BlogDetail/${this.blog.id}`)
         }
     }
 }

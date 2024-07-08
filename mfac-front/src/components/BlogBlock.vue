@@ -7,12 +7,14 @@
                     <vs-row vs-align="flex-end" style="width: 100%;height: 100%;" vs-type="flex"
                         vs-justify="space-between" vs-w="12">
                         <vs-col style="height: 100%;" vs-type="flex" vs-align="center" vs-w="6">
-                            <span style="margin-left: 30px;font-weight: bold;font-size: 20px;">博客标题博客标题博客标题</span>
+                            <span style="margin-left: 30px;font-weight: bold;font-size: 20px;">{{ blog.title }}</span>
                         </vs-col>
                         <vs-col style="height: 100%;" vs-type="flex" vs-justify="center" vs-align="center" vs-w="2">
                             <vs-button style="margin-right: 15px;" color="#c72a75" size="small"
-                                type="filled">博客分类</vs-button>
-                            <vs-button color="#c72a75" size="small" type="line">转载</vs-button>
+                                type="filled">{{ blog.classifyName }}</vs-button>
+                            <vs-button color="#c72a75" size="small" type="line">
+                                {{ blog.types === 1 ? '转载' : '原创' }}
+                            </vs-button>
                         </vs-col>
                     </vs-row>
                 </div>
@@ -20,12 +22,11 @@
                     <vs-row vs-type="flex" vs-justify="space-around">
                         <vs-col style="width: 350px;height: 170px;" vs-type="flex"
                             vs-justify="center" vs-align="center" vs-w="6">
-                            <img style=" box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);width: 300px;height: 150px;border-radius: 5px;" src="https://picsum.photos/350/170">
+                            <img style=" box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);width: 300px;height: 150px;border-radius: 5px;" :src="blog.avatar">
                         </vs-col>
                         <vs-col style="width: 350px;height: 170px;" vs-type="flex" vs-w="6">
                             <p class="blog-description">
-                                博客描述博客描述博客描述博客描述博客描述博客描述博客描述博客描述博客描述博客描述博客描述博客描述博客描述博客描述博客描述博客描述
-                                博客描述博客描述博客描述博客描述博客描述博客描述博客描述博客描述博客描述博客描述博客描述博客描
+                                {{ blog.description }}
                             </p>
                         </vs-col>
                     </vs-row>
@@ -34,18 +35,19 @@
                     <vs-row vs-type="flex" vs-justify="space-around">
                         <vs-col vs-type="flex" vs-align="center" vs-w="4">
                             <vs-avatar size="40px" style="margin-left: 20px;"
-                                src="https://avatars2.githubusercontent.com/u/31676496?s=460&v=4" />
-                            作者名称作者名称作者名称
+                                :src="blog.authorAvatar" />
+                            {{ blog.authorName }}
                         </vs-col>
                         <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="3">
                             <vs-icon icon-pack="fa" size="14px" icon="fa-calendar" color="#c72a75"
                                 style="margin-right: 3px;"></vs-icon>
-                            <span style="font-size: 14px;">2024-6-25 12:35:54</span>
+                            <span style="font-size: 14px;">{{ blog.publishTime }}</span>
                         </vs-col>
                         <vs-col vs-type="flex" vs-justify="flex-end" vs-align="center" vs-w="5">
-                            <vs-button color="#c72a75"  line-position="top" type="line" style="margin-right: 5px;">博客标签</vs-button>
-                            <vs-button color="#c72a75"  line-position="top" type="line" style="margin-right: 5px;">博客标签</vs-button>
-                            <vs-button color="#c72a75"  line-position="top" type="line" style="margin-right: 5px;">博客标签</vs-button>
+                            <vs-button v-for="tag in blog.tags" :key="tag.id" :color="tag.color" 
+                                line-position="top" type="line" style="margin-right: 5px;">
+                                {{ tag.name }}
+                            </vs-button>
                         </vs-col>
                     </vs-row>
                 </div>
@@ -56,11 +58,12 @@
 
 <script>
 export default {
+    props: ['blog'],
     methods: {
         // 点击前往博客详情
         handleClick() {
             console.log("前往博客详情")
-            this.$router.push('/BlogDetail')
+            this.$router.push(`/BlogDetail/${this.blog.id}`)
         }
     }
 }

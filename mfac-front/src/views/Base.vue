@@ -24,7 +24,6 @@
             </vs-input>
             <vs-dropdown style="margin-right: 20px;" v-if="token !== ''">
                 <a class="a-icon" href="#">
-                    <!-- <vs-avatar size="large" src="https://avatars2.githubusercontent.com/u/31676496?s=460&v=4" /> -->
                     <vs-avatar size="large" :src="UserDetail.avatar" />
                 </a>
                 <vs-dropdown-menu style="width: 100px;">
