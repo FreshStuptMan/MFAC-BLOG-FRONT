@@ -72,7 +72,12 @@ export default {
   methods: {
     handleTagClick(id) {
       this.activeTagId = id
-    }
+    },
+
+    // 获取标签列表
+    GetTagList() {},
+    // 获取博客列表
+    GetBlogList() {}
   }
 }
 </script>

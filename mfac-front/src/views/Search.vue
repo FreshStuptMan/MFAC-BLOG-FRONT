@@ -12,23 +12,22 @@
                         v-model="search" />
                 </vs-col>
                 <vs-col vs-type="flex" vs-justify="left" vs-align="center" vs-w="2">
-                    <vs-button style="width: 100px;" color="#c72a75" type="relief">搜索</vs-button>
+                    <vs-button @click="handleSearch" style="width: 100px;" color="#c72a75" type="relief">搜索</vs-button>
                 </vs-col>
             </vs-row>
         </div>
         <!-- 博客列表 -->
         <div
             style="padding-top: 20px;padding-bottom: 20px;margin-top: 80px;width: 1000px;max-height: auto;min-height: 400px;position: relative;left: 50%;margin-left: -500px; background-color: #FEDFE1;bottom: 40px;">
-            <BlogBlock></BlogBlock>
-            <BlogBlock></BlogBlock>
-            <BlogBlock></BlogBlock>
-            <BlogBlock></BlogBlock>
-            <BlogBlock></BlogBlock>
-            <BlogBlock></BlogBlock>
-            <div style="width: 400px;position: relative;left: 50%;margin-left: -200px;">
-                <vs-pagination style="margin-top: 20px;" prev-icon="fa-angle-double-left"
-                    next-icon="fa-angle-double-right" icon-pack="fa" :total="30" :max="pageSize" v-model="pageNum">
-                </vs-pagination>
+            <div v-if="blogsLength !== 0">
+                <BlogBlock v-for="blog in blogs" :key="blog.id" :blog="blog"></BlogBlock>
+                <!-- 分页 -->
+                <el-pagination style="margin-top: 20px;width: 200px;position: relative;left: 50%;margin-left: -100px;" background layout="prev, pager, next" @current-change="handlePageChange"
+                    :page-size="pageSize" :current-page="pageNum" :total="total">
+                </el-pagination>
+            </div>
+            <div v-else style="font-size: 30px;width: 400px;position: relative;left: 50%;margin-left: -200px;text-align: center;">
+                暂无相关博客
             </div>
         </div>
         <!-- 侧边工具栏 -->
@@ -49,7 +48,13 @@
 
 <script>
 import BlogBlock from '@/components/BlogBlock.vue';
+import axios from 'axios';
 export default {
+    computed: {
+        blogsLength() {
+            return this.blogs ? this.blogs.length : 0
+        }
+    },
     components: {
         BlogBlock
     },
@@ -58,10 +63,52 @@ export default {
             search: '',
             // 分页相关
             pageNum: 1,
-            pageSize: 6
+            pageSize: 6,
+            total: 0,
+            // 博客列表
+            blogs: []
         }
     },
     methods: {
+        handlePageChange(pageNum) {
+            this.pageNum = pageNum
+            this.GetBlogList()
+        },
+
+        // 搜索
+        handleSearch() {
+            this.pageNum = 1
+            this.GetBlogList()
+        },
+
+        // 获取博客列表
+        GetBlogList() {
+            axios.post('/api/blog/search', {
+                key: this.search,
+                pageNum: this.pageNum,
+                pageSize: this.pageSize
+            })
+            .then(response => {
+                if(response.data.code === 200) {
+                    this.blogs = response.data.data.records
+                    this.total = response.data.data.total
+                } else {
+                    this.$vs.notify({
+                        title:'提示',
+                        text: response.data.msg,
+                        color:'red'
+                    })
+                }
+            })
+            .catch(error => {
+                this.$vs.notify({
+                    title:'提示',
+                    text: error,
+                    color:'red'
+                })
+            })
+        },
+
         // 返回首页
         GoToHome() {
             this.$router.push('/')
@@ -77,6 +124,10 @@ export default {
                 behavior: 'smooth'
             })
         }
+    },
+    mounted() {
+        this.search = this.$route.params.key
+        this.GetBlogList()
     }
 }
 </script>

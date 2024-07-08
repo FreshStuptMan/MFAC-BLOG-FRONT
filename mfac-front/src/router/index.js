@@ -43,7 +43,7 @@ const routes = [
         component: BlogDetail
       },
       {
-        path: '/Search',
+        path: '/Search/:key',
         name: Search,
         component: Search
       }

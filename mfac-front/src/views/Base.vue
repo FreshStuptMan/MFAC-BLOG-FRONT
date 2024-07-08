@@ -107,12 +107,11 @@ export default {
                     color: 'red',
                     position:'bottom-right'
                 })
-                console.log(1)
                 return
             }
             // 获取vs-input中的那个input
             this.$refs.searchInput.$el.querySelector('input').blur()
-            this.$router.push('/Search')
+            this.$router.push(`/Search/${this.search}`)
             this.search = ''
             console.log("搜索博客"+this.search) 
         },

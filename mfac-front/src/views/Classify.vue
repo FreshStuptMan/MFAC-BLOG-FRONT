@@ -12,32 +12,29 @@
           <vs-col style="font-size: 20px;font-weight: bold;" vs-type="flex" vs-justify="center" vs-align="center"
             vs-w="3">
             <span style="font-size: 25px;"> 𝓣𝓸𝓽𝓪𝓵：</span><span
-              style="margin-left: 4px;margin-right: 4px;font-size: 27px;font-weight: bolder;">25</span>
+              style="margin-left: 4px;margin-right: 4px;font-size: 27px;font-weight: bolder;">{{ classifysLength }}</span>
           </vs-col>
         </vs-row>
         <vs-divider style="margin-top: 0px;" color="#DB4D6D"></vs-divider>
       </div>
       <!-- content -->
       <div style="display: flex;flex-wrap: wrap;margin-top: 10px;height: auto;width: 900px;position: relative;margin-left: -450px;left: 50%;">
-        <ClassifyBlockVue style="margin-right: 10px;margin-bottom: 10px;" @classify-click="handleClassifyClick" :class="{ 'active-classify': activeClassifyId === 1}"></ClassifyBlockVue>
-        <ClassifyBlockVue style="margin-right: 10px;margin-bottom: 10px;" @classify-click="handleClassifyClick" :class="{ 'active-classify': activeClassifyId === 1}"></ClassifyBlockVue>
-        <ClassifyBlockVue style="margin-right: 10px;margin-bottom: 10px;" @classify-click="handleClassifyClick" :class="{ 'active-classify': activeClassifyId === 1}"></ClassifyBlockVue>
-        <ClassifyBlockVue style="margin-right: 10px;margin-bottom: 10px;" @classify-click="handleClassifyClick" :class="{ 'active-classify': activeClassifyId === 1}"></ClassifyBlockVue>
+        <ClassifyBlockVue style="margin-right: 10px;margin-bottom: 10px;"
+          v-for="classify in classifys" :key="classify.id" :classify="classify"
+          @classify-click="handleClassifyClick" :class="{ 'active-classify': activeClassifyId === classify.id}">
+        </ClassifyBlockVue>
       </div>
     </div>                                                                                              
     <!-- 该分类的博客列表 -->
-    <div style="padding-top: 20px;padding-bottom: 20px;margin-top: 80px;width: 1000px;height: auto;position: relative;left: 50%;margin-left: -500px; background-color: #FEDFE1;bottom: 40px;">
-      <BlogBlock></BlogBlock>
-      <BlogBlock></BlogBlock>
-      <BlogBlock></BlogBlock>
-      <BlogBlock></BlogBlock>
-      <BlogBlock></BlogBlock>
-      <BlogBlock></BlogBlock>
-      <div style="width: 400px;position: relative;left: 50%;margin-left: -200px;">
-        <vs-pagination style="margin-top: 20px;" prev-icon="fa-angle-double-left"
-          next-icon="fa-angle-double-right" icon-pack="fa" :total="30" :max="pageSize" v-model="pageNum">
-        </vs-pagination>
-      </div>
+    <div v-if="blogsLength !== 0" style="padding-top: 20px;padding-bottom: 20px;margin-top: 80px;width: 1000px;height: auto;position: relative;left: 50%;margin-left: -500px; background-color: #FEDFE1;bottom: 40px;">
+      <BlogBlock v-for="blog in blogs" :key="blog.id" :blog="blog"></BlogBlock>
+      <!-- 分页 -->
+      <el-pagination style="margin-top: 20px;width: 200px;position: relative;left: 50%;margin-left: -100px;" background layout="prev, pager, next" @current-change="handlePageChange"
+        :page-size="pageSize" :current-page="pageNum" :total="total">
+      </el-pagination>
+    </div>
+    <div v-else style="font-size: 30px;width: 400px;position: relative;left: 50%;margin-left: -200px;text-align: center;">
+      暂无相关博客
     </div>
   </div>
 </template>
@@ -46,35 +43,101 @@
 import ClassifyOrTagSiderBlock from '@/components/ClassifyOrTagSiderBlock.vue'
 import ClassifyBlockVue from '@/components/ClassifyBlock.vue'
 import BlogBlock from '@/components/BlogBlock.vue'
+import axios from 'axios'
 export default {
+  computed: {
+    classifysLength() {
+      return this.classifys.length
+    },
+    blogsLength() {
+      return this.blogs.length
+    }
+  },
   components: {
     ClassifyOrTagSiderBlock,
     ClassifyBlockVue,
     BlogBlock
   },
-  watch: {
-    pageNum(newValue, oldValue){
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      })
-      console.log("处理分页")
-    }
-  },
   data() {
     return {
       // 被选中的分类
-      activeClassifyId: 0,
+      activeClassifyId: null,
       // 分页相关
       pageNum: 1,
       pageSize: 6,
-      totalBlog: 30 
+      total: 0,
+      // 分类列表
+      classifys: [],
+      // 博客列表
+      blogs: []
     }
   },
   methods: {
     handleClassifyClick(id) {
       this.activeClassifyId = id
-    }
+      this.pageNum = 1
+      this.GetBlogList()
+    },
+
+    // 分页
+    handlePageChange(pageNum) {
+      this.pageNum = pageNum
+      this.GetBlogList()
+    },
+    // 获取分类列表
+    GetClassifyList() {
+      axios.get('/api/classify/listAllWithTotal')
+      .then(response => {
+        if(response.data.code === 200) {
+          this.classifys = response.data.data
+        } else {
+          this.$vs.notify({
+            title:'提示',
+            text: response.data.msg,
+            color:'red'
+          })
+        }
+      })
+      .catch(error => {
+        this.$vs.notify({
+          title:'提示',
+          text: error,
+          color:'red'
+        })
+      })
+    },
+
+    // 获取博客列表
+    GetBlogList() {
+      axios.post('/api/blog/search', {
+        pageNum: this.pageNum,
+        pageSize: this.pageSize,
+        classifyId: this.activeClassifyId
+      })
+      .then(response => {
+        if(response.data.code === 200) {
+          this.blogs = response.data.data.records
+          this.total = response.data.data.total
+        } else {
+          this.$vs.notify({
+            title:'提示',
+            text: response.data.msg,
+            color:'red'
+          })
+        }
+      })
+      .catch(error => {
+        this.$vs.notify({
+          title:'提示',
+          text: error,
+          color:'red'
+        })
+      })
+    },
+  },
+  mounted() {
+    this.GetClassifyList()
+    this.GetBlogList()
   }
 }
 </script>
