@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- 头部分类列表 -->
+    <!-- 头部标签列表 -->
     <div style="width: 1000px;height: auto;position: relative;margin-top: 20px;
       left: 50%;margin-left: -500px;background-color: #FEDFE1;">
       <!-- header -->
@@ -12,7 +12,7 @@
           <vs-col style="font-size: 20px;font-weight: bold;" vs-type="flex" vs-justify="center" vs-align="center"
             vs-w="3">
             <span style="font-size: 25px;"> 𝓣𝓸𝓽𝓪𝓵：</span><span
-              style="margin-left: 4px;margin-right: 4px;font-size: 27px;font-weight: bolder;">25</span>
+              style="margin-left: 4px;margin-right: 4px;font-size: 27px;font-weight: bolder;">{{ tagsLength }}</span>
           </vs-col>
         </vs-row>
         <vs-divider style="margin-top: 0px;" color="#DB4D6D"></vs-divider>
@@ -21,23 +21,20 @@
       <div
         style="display: flex;flex-wrap: wrap;margin-top: 10px;height: auto;width: 900px;position: relative;margin-left: -450px;left: 50%;">
         <TagBlockVue style="margin-right: 10px;margin-bottom: 10px;" @tag-click="handleTagClick"
-        :class="{ 'active-tag': activeTagId === 1 }"></TagBlockVue>
+        v-for="tag in tags" :key="tag.id" :tag="tag"
+        :class="{ 'active-tag': activeTagId === tag.id }"></TagBlockVue>
       </div>
     </div>
-    <!-- 该分类的博客列表 -->
-    <div
-      style="padding-top: 20px;padding-bottom: 20px;margin-top: 80px;width: 1000px;height: auto;position: relative;left: 50%;margin-left: -500px; background-color: #FEDFE1;bottom: 40px;">
-      <BlogBlock></BlogBlock>
-      <BlogBlock></BlogBlock>
-      <BlogBlock></BlogBlock>
-      <BlogBlock></BlogBlock>
-      <BlogBlock></BlogBlock>
-      <BlogBlock></BlogBlock>
-      <div style="width: 400px;position: relative;left: 50%;margin-left: -200px;">
-        <vs-pagination style="margin-top: 20px;" prev-icon="fa-angle-double-left" next-icon="fa-angle-double-right"
-          icon-pack="fa" :total="30" :max="pageSize" v-model="pageNum">
-        </vs-pagination>
-      </div>
+    <!-- 该标签的博客列表 -->
+    <div v-if="blogsLength !== 0" style="padding-top: 20px;padding-bottom: 20px;margin-top: 80px;width: 1000px;height: auto;position: relative;left: 50%;margin-left: -500px; background-color: #FEDFE1;bottom: 40px;">
+      <BlogBlock v-for="blog in blogs" :key="blog.id" :blog="blog"></BlogBlock>
+      <!-- 分页 -->
+      <el-pagination style="margin-top: 20px;width: 200px;position: relative;left: 50%;margin-left: -100px;" background layout="prev, pager, next" @current-change="handlePageChange"
+        :page-size="pageSize" :current-page="pageNum" :total="total">
+      </el-pagination>
+    </div>
+    <div v-else style="font-size: 30px;width: 400px;position: relative;left: 50%;margin-left: -200px;text-align: center;">
+      暂无相关博客
     </div>
   </div>
 </template>
@@ -45,39 +42,103 @@
 <script>
 import BlogBlock from '@/components/BlogBlock.vue'
 import TagBlockVue from '@/components/TagBlock.vue'
+import axios from 'axios'
 export default {
+  computed: {
+    tagsLength() {
+      return this.tags.length
+    },
+    blogsLength() {
+      return this.blogs.length
+    }
+  },
   components: {
     BlogBlock,
     TagBlockVue
   },
-  watch: {
-    pageNum(newValue, oldValue) {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      })
-      console.log("处理分页")
-    }
-  },
   data() {
     return {
       // 被选中的分类
-      activeTagId: 0,
+      activeTagId: null,
       // 分页相关
       pageNum: 1,
       pageSize: 6,
-      totalBlog: 30
+      total: 30,
+      // 标签列表
+      tags: [],
+      // 博客列表
+      blogs: []
     }
   },
   methods: {
     handleTagClick(id) {
       this.activeTagId = id
+      this.pageNum = 1
+      this.GetBlogList()
+    },
+    // 分页
+    handlePageChange(pageNum) {
+      this.pageNum = pageNum
+      this.GetBlogList()
     },
 
     // 获取标签列表
-    GetTagList() {},
+    GetTagList() {
+      axios.get('/api/tag/listAllWithTotal')
+      .then(response => {
+        if(response.data.code === 200) {
+          this.tags = response.data.data
+        } else {
+          this.$vs.notify({
+            title:'提示',
+            text: response.data.msg,
+            color:'red'
+          })
+        }
+      })
+      .catch(error => {
+        this.$vs.notify({
+          title:'提示',
+          text: error,
+          color:'red'
+        })
+      })
+    },
     // 获取博客列表
-    GetBlogList() {}
+    GetBlogList() {
+      axios.post('/api/blog/search', {
+        pageNum: this.pageNum,
+        pageSize: this.pageSize,
+        tagId: this.activeTagId
+      })
+      .then(response => {
+        if(response.data.code === 200) {
+          this.blogs = response.data.data.records
+          this.total = response.data.data.total
+        } else {
+          this.$vs.notify({
+            title:'提示',
+            text: response.data.msg,
+            color:'red'
+          })
+        }
+      })
+      .catch(error => {
+        this.$vs.notify({
+          title:'提示',
+          text: error,
+          color:'red'
+        })
+      })
+    }
+  },
+  mounted() {
+    this.GetTagList()
+    let id = this.$route.params.id
+    if(id) {
+      this.activeTagId = id
+    }
+    this.GetBlogList()
   }
 }
 </script>

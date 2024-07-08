@@ -40,7 +40,6 @@
 </template>
 
 <script>
-import ClassifyOrTagSiderBlock from '@/components/ClassifyOrTagSiderBlock.vue'
 import ClassifyBlockVue from '@/components/ClassifyBlock.vue'
 import BlogBlock from '@/components/BlogBlock.vue'
 import axios from 'axios'
@@ -54,7 +53,6 @@ export default {
     }
   },
   components: {
-    ClassifyOrTagSiderBlock,
     ClassifyBlockVue,
     BlogBlock
   },
@@ -137,6 +135,10 @@ export default {
   },
   mounted() {
     this.GetClassifyList()
+    let id = this.$route.params.id
+    if(id) {
+      this.activeClassifyId = id
+    }
     this.GetBlogList()
   }
 }

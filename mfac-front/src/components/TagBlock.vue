@@ -1,15 +1,17 @@
 <template>
     <div @click="handleTagClick" style="width: 200px;height: 40px;border-radius: 10px;">
         <div class="tag-block" style="width: 200px;height: 40px;border-radius: 10px;">
-            <vs-row style="height: 100%;border-radius: 10px;background-color: aqua;" vs-align="flex-end" vs-type="flex"
+            <vs-row 
+                :style="{ height: '100%', borderRadius: '10px', backgroundColor: tag.color }"
+                vs-align="flex-end" vs-type="flex"
                 vs-justify="space-between" vs-w="12">
                 <vs-col style="height: 100%;
                     border-style: solid;border-left: 0px;border-top: 0px;border-bottom: 0px;border-color: white;"
                     vs-type="flex" vs-justify="center" vs-align="center" vs-w="9">
-                    标签名称标签名称
+                    {{ tag.name }}
                 </vs-col>
                 <vs-col style="height: 100%;" vs-type="flex" vs-justify="center" vs-align="center" vs-w="3">
-                    1
+                    {{ tag.totalBlog }}
                 </vs-col>
             </vs-row>
         </div>
@@ -18,10 +20,10 @@
 
 <script>
 export default {
+    props: ['tag'],
     methods: {
         handleTagClick() {
-            this.$emit('tag-click', 1)
-            console.log(1111)
+            this.$emit('tag-click', this.tag.id)
         }
     }
 }

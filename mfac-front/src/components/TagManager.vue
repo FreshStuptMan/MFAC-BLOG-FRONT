@@ -35,6 +35,9 @@
                             <h4 style="width: 100%;text-align: center;">创建者</h4>
                         </vs-th>
                         <vs-th>
+                            <h4 style="width: 100%;text-align: center;">博客数</h4>
+                        </vs-th>
+                        <vs-th>
                             <h4 style="width: 100%;text-align: center;">创建时间</h4>
                         </vs-th>
                         <vs-th>
@@ -59,7 +62,9 @@
                             <vs-td style="text-align: center;" :data="tag.creatorName">
                                 {{ tag.creatorName }}
                             </vs-td>
-
+                            <vs-td style="text-align: center;" :data="tag.creatorName">
+                                {{ tag.totalBlog }}
+                            </vs-td>
                             <vs-td style="text-align: center;" :data="tag.createTime">
                                 {{ tag.createTime }}
                             </vs-td>
