@@ -20,7 +20,7 @@
       </div>
       <!-- 博客主体内容 -->
       <div style="width: 100%;min-height: 400px;max-height: auto;padding-left: 50px;padding-right: 50px;">
-        <div v-html="BlogDetail.content"></div>
+        <div style="width: 100%;" class="ql-editor" v-html="BlogDetail.content"></div>
       </div>
       <vs-divider color="#ad289f"></vs-divider>
       <!-- 分类与标签 -->
@@ -53,7 +53,9 @@
 
 <script>
 import axios from 'axios'
-
+import "quill/dist/quill.core.css"
+import "quill/dist/quill.snow.css"
+import "quill/dist/quill.bubble.css"
 export default {
   data() {
     return {

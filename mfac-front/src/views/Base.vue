@@ -219,6 +219,12 @@ export default {
 </script>
 
 <style lang="less">
+.ql-editor img {
+    max-width: 100%;
+    height: auto;
+}
+
+
 @keyframes logoColorCycle {
   0% {
     color: red;
