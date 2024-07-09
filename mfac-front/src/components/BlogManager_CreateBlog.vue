@@ -79,7 +79,7 @@
             <vs-divider color="#ad289f"></vs-divider>
             <!-- 博客描述 -->
             <div style="width: 100%;padding-left: 30px;padding-right: 30px;">
-                <vs-textarea counter="20" label="博客描述: 20" :counter-danger.sync="counterDanger" v-model="createForm.description" />
+                <vs-textarea counter="100" label="博客描述: 100" :counter-danger.sync="counterDanger" v-model="createForm.description" />
             </div>
             <!-- 操作 -->
             <div style="width: 100%;height: 50px;">
@@ -347,10 +347,10 @@ export default {
                 return false
             }
 
-            if(this.createForm.description.length > 20) {
+            if(this.createForm.description.length > 100) {
                 this.$vs.notify({
                     title: '提示',
-                    text: '博客描述不能超过20字',
+                    text: '博客描述不能超过100字',
                     color: 'red'
                 })
                 return false
