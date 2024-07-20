@@ -8,7 +8,7 @@
         <vs-button size="large" style="float: right;width: 100px;" color="danger" type="line">
           {{ BlogDetail.types === 1 ? '转载' : '原创' }}
         </vs-button>
-        <h1 style="width: 300px;position: relative;margin-left: -150px;left: 50%;">{{ BlogDetail.title }}</h1>
+        <h1 style="width: 800px;position: relative;margin-left: -400px;left: 50%;">{{ BlogDetail.title }}</h1>
         <vs-divider color="#ad289f"></vs-divider>
       </div>
       <!-- 博客头图 -->
