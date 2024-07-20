@@ -7,7 +7,7 @@
                     <vs-row vs-align="flex-end" style="width: 100%;height: 100%;" vs-type="flex"
                         vs-justify="space-between" vs-w="12">
                         <vs-col style="height: 100%;" vs-type="flex" vs-align="center" vs-w="6">
-                            <span style="margin-left: 30px;font-weight: bold;font-size: 20px;">{{ blog.title }}</span>
+                            <span style="margin-left: 30px;font-weight: bold;font-size: 20px;white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ blog.title }}</span>
                         </vs-col>
                         <vs-col style="height: 100%;" vs-type="flex" vs-justify="center" vs-align="center" vs-w="2">
                             <vs-button style="margin-right: 15px;" color="#c72a75" size="small"
