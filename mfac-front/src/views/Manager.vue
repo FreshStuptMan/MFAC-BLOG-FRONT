@@ -25,11 +25,17 @@
           <TagManagerVue></TagManagerVue>
         </div>
       </vs-tab>
+      <vs-tab label="工具类型管理">
+        <div>
+          <ToolTypeManagerVue></ToolTypeManagerVue>
+        </div>
+      </vs-tab>
       <vs-tab label="个人信息修改">
         <div>
           <PersonalManagerVue></PersonalManagerVue>
         </div>
       </vs-tab>
+
     </vs-tabs>
   </div>
 </template>
@@ -41,6 +47,7 @@ import TagManagerVue from '@/components/TagManager.vue'
 import PersonalManagerVue from '@/components/PersonalManager.vue'
 import BlogManager_CreateBlogVue from '@/components/BlogManager_CreateBlog.vue'
 import BlogManager_EditBlogVue from '@/components/BlogManager_EditBlog.vue'
+import ToolTypeManagerVue from '@/components/ToolTypeManager.vue'
 export default {
   components: {
     BlogManagerVue,
@@ -48,7 +55,8 @@ export default {
     TagManagerVue,
     PersonalManagerVue,
     BlogManager_CreateBlogVue,
-    BlogManager_EditBlogVue
+    BlogManager_EditBlogVue,
+    ToolTypeManagerVue
   },
   data() {
     return {
