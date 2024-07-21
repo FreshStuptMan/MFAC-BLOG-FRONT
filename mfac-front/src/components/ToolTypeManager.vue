@@ -49,13 +49,12 @@
                                 {{ toolType.name }}
                             </vs-td>
 
-
                             <vs-td style="text-align: center;" :data="toolType.creatorName">
                                 {{ toolType.creatorName }}
                             </vs-td>
 
-                            <vs-td style="text-align: center;" :data="toolType.totalType">
-                                {{ toolType.totalType }}
+                            <vs-td style="text-align: center;" :data="toolType.totalTool">
+                                {{ toolType.totalTool }}
                             </vs-td>
 
                             <vs-td style="text-align: center;" :data="toolType.createTime">
@@ -74,9 +73,9 @@
                 </el-pagination>
             </div>
             <!-- 创建表单弹窗 -->
-            <vs-popup title="创建分类" :active.sync="craetePopVis" :button-close-hidden="true">
+            <vs-popup title="创建类型" :active.sync="craetePopVis" :button-close-hidden="true">
                 <div>
-                    <vs-input style="float: left;width: 50%;margin: 10px;margin-top: 5px;" placeholder="分类名称"
+                    <vs-input style="float: left;width: 50%;margin: 10px;margin-top: 5px;" placeholder="类型名称"
                         v-model="createFrom.name" />
                 </div>
                 <div style="width: 100%;">
@@ -85,16 +84,12 @@
                 </div>
             </vs-popup>
             <!-- 编辑表单弹窗 -->
-            <vs-popup title="编辑分类" :active.sync="editPopVis" :button-close-hidden="true">
+            <vs-popup title="编辑类型" :active.sync="editPopVis" :button-close-hidden="true">
                 <div>
-                    <vs-input style="float: left;width: 50%;margin: 10px;margin-top: 5px;" placeholder="分类名称"
+                    <vs-input style="float: left;width: 50%;margin: 10px;margin-top: 5px;" placeholder="类型名称"
                         v-model="editForm.name" />
-                    <input style="margin-top: 6px;" type="color" v-model="editForm.color">
                 </div>
                 <div style="width: 100%;">
-                    <div style="float: left;width: 100%;">
-                        预览：<vs-button :color="editForm.color" type="filled">{{ editForm.name }}</vs-button>
-                    </div>
                     <vs-button @click="acceptEdit" style="float: right;" color="danger" type="line">确定</vs-button>
                     <vs-button @click="cancelEdit" style="float: right;" color="danger" type="line">取消</vs-button>
                 </div>
@@ -129,63 +124,6 @@ export default {
                 name: '',
             },
             // 表格数据
-            classifys: [{
-                id: 1,
-                name: '分类名称',
-                color: '#c72a75',
-                creatorName: '创建者',
-                createTime: '2024-12-21 12:33:33',
-                updateTime: '2024-12-21 12:33:33'
-            }, {
-                id: 2,
-                name: '分类名称',
-                color: '#c72a75',
-                creatorName: '创建者',
-                createTime: '2024-12-21 12:33:33',
-                updateTime: '2024-12-21 12:33:33'
-            }, {
-                id: 3,
-                name: '分类名称',
-                color: '#c72a75',
-                creatorName: '创建者',
-                createTime: '2024-12-21 12:33:33',
-                updateTime: '2024-12-21 12:33:33'
-            }, {
-                id: 4,
-                name: '分类名称',
-                color: '#c72a75',
-                creatorName: '创建者',
-                createTime: '2024-12-21 12:33:33',
-                updateTime: '2024-12-21 12:33:33'
-            }, {
-                id: 5,
-                name: '分类名称',
-                color: '#c72a75',
-                creatorName: '创建者',
-                createTime: '2024-12-21 12:33:33',
-                updateTime: '2024-12-21 12:33:33'
-            }, {
-                id: 6,
-                name: '分类名称',
-                color: '#c72a75',
-                creatorName: '创建者',
-                createTime: '2024-12-21 12:33:33',
-                updateTime: '2024-12-21 12:33:33'
-            }, {
-                id: 7,
-                name: '分类名称',
-                color: '#c72a75',
-                creatorName: '创建者',
-                createTime: '2024-12-21 12:33:33',
-                updateTime: '2024-12-21 12:33:33'
-            }, {
-                id: 8,
-                name: '分类名称',
-                color: '#c72a75',
-                creatorName: '创建者',
-                createTime: '2024-12-21 12:33:33',
-                updateTime: '2024-12-21 12:33:33'
-            }],
             toolTypes: [],
             // 分类创建表单
             createFrom: {
@@ -196,12 +134,11 @@ export default {
             // 分类编辑表单
             editForm: {
                 name: '',
-                color: ''
             },
             // 编辑表单窗口控制
             editPopVis: false,
             // 被选择的分类
-            activeClassfiy: {},
+            activeToolType: {},
             // 删除的二次确认弹窗控制 
             deletePopVis: false,
             // 分页参数
@@ -213,16 +150,16 @@ export default {
     methods: {
         handlePageChange(pageNum) {
             this.pageNum = pageNum
-            this.GetClassifyList()
+            this.GetToolTypeList()
         },
         // 搜索
         handleSearch() {
-            this.GetClassifyList()
+            this.GetToolTypeList()
         },
         // 重置搜索表单
         handleReset() {
             this.SearchForm.name = ''
-            this.GetClassifyList()
+            this.GetToolTypeList()
         },
         // 获取类型列表
         GetToolTypeList() {
@@ -255,11 +192,10 @@ export default {
         },
 
 
-        // 编辑分类
-        handleEdit(classify) {
-            this.activeClassfiy = classify
-            this.editForm.name = classify.name
-            this.editForm.color = classify.color
+        // 编辑工具类型
+        handleEdit(toolType) {
+            this.activeToolType = toolType
+            this.editForm.name = toolType.name
             this.editPopVis = true
         },
         // 确定编辑
@@ -267,37 +203,36 @@ export default {
             if (!this.editFormVarify()) {
                 return
             }
-            axios.post('/api/admin/classify/update', {
-                id: this.activeClassfiy.id,
+            axios.post('/api/admin/toolType/update', {
+                id: this.activeToolType.id,
                 name: this.editForm.name,
-                color: this.editForm.color
             }, {
                 headers: { token: this.token }
             })
-                .then(response => {
-                    if (response.data.code === 200) {
-                        this.$vs.notify({
-                            title: '提示',
-                            text: '更新成功',
-                            color: 'success'
-                        })
-                        this.GetClassifyList()
-                        this.editPopVis = false
-                    } else {
-                        this.$vs.notify({
-                            title: '提示',
-                            text: response.data.msg,
-                            color: 'red'
-                        })
-                    }
-                })
-                .catch(error => {
+            .then(response => {
+                if (response.data.code === 200) {
                     this.$vs.notify({
                         title: '提示',
-                        text: error,
+                        text: '更新成功',
+                        color: 'success'
+                    })
+                    this.GetToolTypeList()
+                    this.editPopVis = false
+                } else {
+                    this.$vs.notify({
+                        title: '提示',
+                        text: response.data.msg,
                         color: 'red'
                     })
+                }
+            })
+            .catch(error => {
+                this.$vs.notify({
+                    title: '提示',
+                    text: error,
+                    color: 'red'
                 })
+            })
         },
         // 取消编辑
         cancelEdit() {
@@ -306,44 +241,44 @@ export default {
 
 
 
-        // 删除分类
-        handleDelete(classify) {
-            this.activeClassfiy = classify
+        // 删除工具类型
+        handleDelete(toolType) {
+            this.activeToolType = toolType
             this.deletePopVis = true
         },
         // 确定删除
         acceptDelete() {
-            axios.delete(`/api/admin/classify/delete/${this.activeClassfiy.id}`, {
+            axios.delete(`/api/admin/toolType/delete/${this.activeToolType.id}`, {
                 headers: { token: this.token }
             })
-                .then(response => {
-                    if (response.data.code === 200) {
-                        this.$vs.notify({
-                            title: '提示',
-                            text: '删除成功',
-                            color: 'success'
-                        })
-                        this.GetClassifyList()
-                    } else {
-                        this.$vs.notify({
-                            title: '提示',
-                            text: response.data.msg,
-                            color: 'red'
-                        })
-                    }
-                })
-                .catch(error => {
+            .then(response => {
+                if (response.data.code === 200) {
                     this.$vs.notify({
                         title: '提示',
-                        text: error,
+                        text: '删除成功',
+                        color: 'success'
+                    })
+                    this.GetToolTypeList()
+                } else {
+                    this.$vs.notify({
+                        title: '提示',
+                        text: response.data.msg,
                         color: 'red'
                     })
+                }
+            })
+            .catch(error => {
+                this.$vs.notify({
+                    title: '提示',
+                    text: error,
+                    color: 'red'
                 })
+            })
             this.cancelDelete()
         },
         // 取消删除
         cancelDelete() {
-            this.activeClassfiy = {}
+            this.activeToolType = {}
             this.deletePopVis = false
         },
 
@@ -361,30 +296,30 @@ export default {
             axios.post('/api/admin/toolType/create', this.createFrom, {
                 headers: { token: this.token }
             })
-                .then(response => {
-                    if (response.data.code === 200) {
-                        this.$vs.notify({
-                            title: '提示',
-                            text: '创建成功',
-                            color: 'success'
-                        })
-                        this.GetClassifyList()
-                        this.craetePopVis = false
-                    } else {
-                        this.$vs.notify({
-                            title: '提示',
-                            text: response.data.msg,
-                            color: 'red'
-                        })
-                    }
-                })
-                .catch(error => {
+            .then(response => {
+                if (response.data.code === 200) {
                     this.$vs.notify({
                         title: '提示',
-                        text: error,
+                        text: '创建成功',
+                        color: 'success'
+                    })
+                    this.GetToolTypeList()
+                    this.craetePopVis = false
+                } else {
+                    this.$vs.notify({
+                        title: '提示',
+                        text: response.data.msg,
                         color: 'red'
                     })
+                }
+            })
+            .catch(error => {
+                this.$vs.notify({
+                    title: '提示',
+                    text: error,
+                    color: 'red'
                 })
+            })
         },
         // 取消创建
         cancelCreate() {
@@ -406,7 +341,7 @@ export default {
         },
         // 编辑表单验证
         editFormVarify() {
-            if (this.editForm.name === this.activeClassfiy.name && this.editForm.color === this.activeClassfiy.color) {
+            if (this.editForm.name === this.activeToolType.name) {
                 this.$vs.notify({
                     title: '提示',
                     text: '请做出修改后再提交',
@@ -414,10 +349,10 @@ export default {
                 })
                 return false
             }
-            if (this.editForm.name === '' || this.editForm.color === '') {
+            if (this.editForm.name === '') {
                 this.$vs.notify({
                     title: '提示',
-                    text: '请填写完整的分类信息',
+                    text: '请填写完整的类型信息',
                     color: 'red'
                 })
                 return false
