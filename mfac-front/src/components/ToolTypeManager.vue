@@ -111,6 +111,7 @@
 
 <script>
 import axios from 'axios'
+import { Loading } from 'element-ui'
 export default {
     computed: {
         token() {
@@ -125,19 +126,19 @@ export default {
             },
             // 表格数据
             toolTypes: [],
-            // 分类创建表单
+            // 创建表单
             createFrom: {
                 name: '',
             },
             // 创建表单弹窗控制
             craetePopVis: false,
-            // 分类编辑表单
+            // 编辑表单
             editForm: {
                 name: '',
             },
             // 编辑表单窗口控制
             editPopVis: false,
-            // 被选择的分类
+            // 被选择的工具类型
             activeToolType: {},
             // 删除的二次确认弹窗控制 
             deletePopVis: false,
@@ -163,6 +164,13 @@ export default {
         },
         // 获取类型列表
         GetToolTypeList() {
+            Loading.service({
+                lock: true,
+                text: '数据加载中，请稍等。。。',
+                spinner: 'el-icon-loading',
+                background: 'rgba(255,255,255)',
+                fullscreen: true
+            })
             axios.post('/api/admin/toolType/list', {
                 name: this.SearchForm.name,
                 pageSize: this.pageSize,
@@ -189,6 +197,7 @@ export default {
                     color: 'red'
                 })
             })
+            Loading.service({ fullscreen: true }).close()
         },
 
 

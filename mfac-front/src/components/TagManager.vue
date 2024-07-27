@@ -130,6 +130,7 @@
 </template>
 
 <script>
+import { Loading } from 'element-ui'
 import axios from 'axios'
 export default {
     computed: {
@@ -194,6 +195,13 @@ export default {
         },
         // 获取标签列表
         GetTagList() {
+            Loading.service({
+                lock: true,
+                text: '数据加载中，请稍等。。。',
+                spinner: 'el-icon-loading',
+                background: 'rgba(255,255,255)',
+                fullscreen: true
+            })
             axios.post('/api/admin/tag/list',{
                 pageNum: this.pageNum,
                 pageSize: this.pageSize,
@@ -221,7 +229,9 @@ export default {
                     color: 'red'
                 })
             })
+            Loading.service({ fullscreen: true }).close()
         },
+
 
 
 

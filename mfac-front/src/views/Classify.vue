@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import { Loading } from 'element-ui'
 import ClassifyBlockVue from '@/components/ClassifyBlock.vue'
 import BlogBlock from '@/components/BlogBlock.vue'
 import axios from 'axios'
@@ -107,6 +108,13 @@ export default {
 
     // 获取博客列表
     GetBlogList() {
+      Loading.service({
+          lock: true,
+          text: '数据加载中，请稍等。。。',
+          spinner: 'el-icon-loading',
+          background: 'rgba(255,255,255)',
+          fullscreen: true
+      })
       axios.post('/api/blog/search', {
         pageNum: this.pageNum,
         pageSize: this.pageSize,
@@ -131,6 +139,7 @@ export default {
           color:'red'
         })
       })
+      Loading.service({ fullscreen: true }).close()
     },
   },
   mounted() {

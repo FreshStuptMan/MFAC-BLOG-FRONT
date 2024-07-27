@@ -53,6 +53,7 @@
 
 <script>
 import axios from 'axios'
+import { Loading } from 'element-ui'
 import "quill/dist/quill.core.css"
 import "quill/dist/quill.snow.css"
 import "quill/dist/quill.bubble.css"
@@ -80,6 +81,14 @@ export default {
     },
     // 获取博客详情
     GetBlogDetail(id) {
+      Loading.service({
+        lock: true,
+        text: '数据加载中，请稍等。。。',
+        spinner: 'el-icon-loading',
+        background: 'rgba(255,255,255)',
+        fullscreen: true
+      })
+      Loading.service({ fullscreen: true }).close()
       axios.get(`/api/blog/detail/${id}`)
       .then(response => {
         if(response.data.code === 200) {
@@ -99,6 +108,7 @@ export default {
           color: 'red'
         })
       })
+      Loading.service({ fullscreen: true }).close()
     }
   },
   mounted() {

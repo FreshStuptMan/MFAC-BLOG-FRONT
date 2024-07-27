@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div style="top: 30px;width: 1800px;
-      left: 50%;margin-left: -900px;max-height: 2200px;
+    <div style="top: 30px;width: 1600px;
+      left: 50%;margin-left: -800px;max-height: 2200px;
       position: relative;">
       <vs-row vs-w="12" style="max-height: 2000px;">
         <!-- 博客列表 -->
@@ -73,10 +73,10 @@
               <h2>𝓒𝓱𝓸𝓸𝓼𝓮 𝓨𝓸𝓾𝓻 𝓕𝓪𝓿𝓸𝓻</h2>
               <vs-divider color="#ad289f"></vs-divider>
               <ul style="list-style-type: none;display: flex;flex-wrap: wrap;width: 350px;position: relative;left: 50%;margin-left: -175px;">
-                <li v-for="classify in classifyList" :key="classify.id" style="min-width: auto;max-width: 100px;">
+                <li v-for="classify in classifyList" :key="classify.id" style="min-width: auto;max-width: 150px;">
                   <ClassifySiderBlockVue :info="classify"></ClassifySiderBlockVue>
                 </li>
-                <li v-for="tag in tagList" :key="tag.id" style="min-width: auto;max-width: 100px;">
+                <li v-for="tag in tagList" :key="tag.id" style="min-width: auto;max-width: 150px;">
                   <TagSiderBlockVue :info="tag"></TagSiderBlockVue>
                 </li>
               </ul>
@@ -89,6 +89,7 @@
 </template>
 
 <script>
+import { Loading } from 'element-ui'
 import BlogBlockVue from '@/components/BlogBlock.vue'
 import NewestBlogBlockVue from '@/components/NewestBlogBlock.vue'
 import axios from 'axios'
@@ -130,12 +131,18 @@ export default {
     },
     // 获取博客列表
     GetBlogList() {
+      Loading.service({
+        lock: true,
+        text: '数据加载中，请稍等。。。',
+        spinner: 'el-icon-loading',
+        background: 'rgba(255,255,255)',
+        fullscreen: true
+      })
       axios.get(`/api/blog/list/${this.pageNum}/${this.pageSize}`)
       .then(response => {
         if(response.data.code === 200) {
           this.blogs = response.data.data.records
           this.total = response.data.data.total
-          console.log(response)
         } else {
           this.$vs.notify({
             title: '提示',
@@ -151,6 +158,7 @@ export default {
             color: 'red'
           })
       })
+      Loading.service({ fullscreen: true }).close()
     },
     // 获取最新博客列表
     GetNewestBlogList() {

@@ -9,7 +9,7 @@
                         <vs-col style="height: 100%;" vs-type="flex" vs-align="center" vs-w="6">
                             <span style="margin-left: 30px;font-weight: bold;font-size: 20px;white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ blog.title }}</span>
                         </vs-col>
-                        <vs-col style="height: 100%;" vs-type="flex" vs-justify="center" vs-align="center" vs-w="2">
+                        <vs-col style="height: 100%;" vs-type="flex" vs-justify="center" vs-align="center" vs-w="3">
                             <vs-button style="margin-right: 15px;" color="#c72a75" size="small"
                                 type="filled">{{ blog.classifyName }}</vs-button>
                             <vs-button color="#c72a75" size="small" type="line">
@@ -33,17 +33,24 @@
                 </div>
                 <div style="width: 100%;height: 60px;">
                     <vs-row vs-type="flex" vs-justify="space-around">
-                        <vs-col vs-type="flex" vs-align="center" vs-w="4">
+                        <vs-col vs-type="flex" vs-align="center" vs-w="2">
                             <vs-avatar size="40px" style="margin-left: 20px;"
                                 :src="blog.authorAvatar" />
                             {{ blog.authorName }}
                         </vs-col>
-                        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="3">
-                            <vs-icon icon-pack="fa" size="14px" icon="fa-calendar" color="#c72a75"
-                                style="margin-right: 3px;"></vs-icon>
-                            <span style="font-size: 14px;">{{ blog.publishTime }}</span>
+                        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="6">
+                            <vs-icon icon-pack="fa" size="10px" icon="fa-calendar" color="#c72a75"
+                                style="margin-right: 6px;"></vs-icon>
+                            <vs-tooltip color="rgb(199,42,117)" position="bottom" style="margin-right: 50px;margin-top: 3px" text="发布时间">
+                                <span style="font-size: 13px;">{{ blog.publishTime }}</span>
+                            </vs-tooltip>
+                            <vs-icon icon-pack="fa" size="10px" icon="fa-pencil" color="#c72a75"
+                                style="margin-right: 4px;"></vs-icon>
+                            <vs-tooltip color="rgb(199,42,117)" position="bottom" style="margin-right: 50px;margin-top: 3px" text="更新时间">
+                                <span style="font-size: 13px;margin-top: 3px">{{ blog.updateTime }}</span>
+                            </vs-tooltip>
                         </vs-col>
-                        <vs-col vs-type="flex" vs-justify="flex-end" vs-align="center" vs-w="5">
+                        <vs-col vs-type="flex" vs-justify="flex-end" vs-align="center" vs-w="4">
                             <vs-button v-for="tag in blog.tags" :key="tag.id" :color="tag.color" 
                                 line-position="top" type="line" style="margin-right: 5px;">
                                 {{ tag.name }}

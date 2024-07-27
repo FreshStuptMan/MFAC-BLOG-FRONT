@@ -47,8 +47,9 @@
 </template>
 
 <script>
-import BlogBlock from '@/components/BlogBlock.vue';
-import axios from 'axios';
+import { Loading } from 'element-ui'
+import BlogBlock from '@/components/BlogBlock.vue'
+import axios from 'axios'
 export default {
     computed: {
         blogsLength() {
@@ -83,6 +84,13 @@ export default {
 
         // 获取博客列表
         GetBlogList() {
+            Loading.service({
+                lock: true,
+                text: '数据加载中，请稍等。。。',
+                spinner: 'el-icon-loading',
+                background: 'rgba(255,255,255)',
+                fullscreen: true
+            })
             axios.post('/api/blog/search', {
                 key: this.search,
                 pageNum: this.pageNum,
@@ -107,6 +115,7 @@ export default {
                     color:'red'
                 })
             })
+            Loading.service({ fullscreen: true }).close()
         },
 
         // 返回首页

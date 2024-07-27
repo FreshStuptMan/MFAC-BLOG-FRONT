@@ -50,7 +50,7 @@
 
 <script>
 import axios from 'axios'
-
+import { Loading } from 'element-ui'
 export default {
     computed: {
         token() {
@@ -233,6 +233,13 @@ export default {
         },
         // 获取用户信息
         GetUserInfo() {
+            Loading.service({
+                lock: true,
+                text: '数据加载中，请稍等。。。',
+                spinner: 'el-icon-loading',
+                background: 'rgba(255,255,255)',
+                fullscreen: true
+            })
             axios.get('/api/admin/user/detail', {
                 headers: {token: this.token}
             })
@@ -255,6 +262,7 @@ export default {
                     color: 'red'
                 })
             })
+            Loading.service({ fullscreen: true }).close()
         },
 
         // 编辑表单验证

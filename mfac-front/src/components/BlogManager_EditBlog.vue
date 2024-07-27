@@ -106,7 +106,8 @@ export default {
                 tagIds: [],
                 avatar: '',
                 description: '',
-                status: null
+                status: null,
+                publishTime: null
             },
             // 博客描述字数
             counterDanger: false,
@@ -246,6 +247,7 @@ export default {
                 this.editForm.tagIds.push(tag.id)
             })
             this.editForm.description = this.blogDetail.description
+            this.editForm.publishTime = this.blogDetail.publishTime
         },
 
 

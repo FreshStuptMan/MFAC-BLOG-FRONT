@@ -118,6 +118,7 @@
 </template>
 
 <script>
+import { Loading } from 'element-ui'
 import axios from 'axios'
 export default {
     computed: {
@@ -216,6 +217,13 @@ export default {
         },
         // 获取博客列表
         GetBlogList() {
+            Loading.service({
+                lock: true,
+                text: '数据加载中，请稍等。。。',
+                spinner: 'el-icon-loading',
+                background: 'rgba(255,255,255)',
+                fullscreen: true
+            })
             axios.post('/api/admin/blog/list', {
                 pageSize: this.pageSize,
                 pageNum: this.pageNum,
@@ -245,6 +253,7 @@ export default {
                     color: 'red'
                 })
             })
+            Loading.service({ fullscreen: true }).close()
         },
 
 
@@ -259,17 +268,18 @@ export default {
         
         // 发布博客
         handleUp(blog) {
-            this.handleChangeStatus(blog.id, 2)
+            this.handleChangeStatus(blog.id, blog.publishTime, 2)
         },
         // 下架博客
         handleDown(blog) {
-            this.handleChangeStatus(blog.id, 3)
+            this.handleChangeStatus(blog.id, blog.publishTime, 3)
         },
         // 修改博客状态
-        handleChangeStatus(id, status) {
+        handleChangeStatus(id, publishTime, status) {
             axios.post('/api/admin/blog/changeStatus', {
                 id,
-                status
+                status,
+                publishTime
             }, {
                 headers: {token: this.token}
             })
