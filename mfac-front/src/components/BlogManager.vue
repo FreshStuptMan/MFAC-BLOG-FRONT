@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="width: 1400px;height: 650px;position: relative;left: 50%;margin-left: -700px;background-color: white;box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);margin-top: 30px;">
+    <div style="border-radius: 20px;width: 1400px;height: 650px;position: relative;left: 50%;margin-left: -700px;background-color: white;box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);margin-top: 30px;">
         <!-- 搜索表单 -->
         <div style="display: flex;padding-left: 25px;padding-top: 10px;width: 920px;height: 75px;">
             <!-- 博客标题 -->

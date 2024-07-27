@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 头部标签列表 -->
-    <div style="width: 1000px;height: auto;position: relative;margin-top: 20px;
+    <div style="border-radius: 20px;width: 1000px;height: auto;position: relative;margin-top: 20px;
       left: 50%;margin-left: -500px;background-color: #FEDFE1;">
       <!-- header -->
       <div style="width: 100%;height: 60px;">
@@ -26,10 +26,10 @@
       </div>
     </div>
     <!-- 该标签的博客列表 -->
-    <div v-if="blogsLength !== 0" style="padding-top: 20px;padding-bottom: 20px;margin-top: 80px;width: 1000px;height: auto;position: relative;left: 50%;margin-left: -500px; background-color: #FEDFE1;bottom: 40px;">
+    <div v-if="blogsLength !== 0" style="border-radius: 20px;padding-top: 10px;padding-bottom: 20px;margin-top: 80px;width: 1000px;height: auto;position: relative;left: 50%;margin-left: -500px; background-color: #FEDFE1;bottom: 40px;">
       <BlogBlock v-for="blog in blogs" :key="blog.id" :blog="blog"></BlogBlock>
       <!-- 分页 -->
-      <el-pagination style="margin-top: 20px;width: 200px;position: relative;left: 50%;margin-left: -100px;" background layout="prev, pager, next" @current-change="handlePageChange"
+      <el-pagination v-if="total > pageSize" style="margin-top: 20px;width: 200px;position: relative;left: 50%;margin-left: -100px;" background layout="prev, pager, next" @current-change="handlePageChange"
         :page-size="pageSize" :current-page="pageNum" :total="total">
       </el-pagination>
     </div>

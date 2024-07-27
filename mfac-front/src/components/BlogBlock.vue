@@ -9,13 +9,18 @@
                         <vs-col style="height: 100%;" vs-type="flex" vs-align="center" vs-w="6">
                             <span style="margin-left: 30px;font-weight: bold;font-size: 20px;white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ blog.title }}</span>
                         </vs-col>
-                        <vs-col style="height: 100%;" vs-type="flex" vs-justify="center" vs-align="center" vs-w="3">
+                        <!-- <vs-col style="height: 100%;" vs-type="flex" vs-justify="center" vs-align="center" vs-w="1">
                             <vs-button style="margin-right: 15px;" color="#c72a75" size="small"
                                 type="filled">{{ blog.classifyName }}</vs-button>
+                        </vs-col> -->
+                        <div>
+                            <vs-button style="margin-right: 15px;" color="#c72a75" size="small"
+                                type="filled">{{ blog.classifyName }}
+                            </vs-button>
                             <vs-button color="#c72a75" size="small" type="line">
                                 {{ blog.types === 1 ? '转载' : '原创' }}
                             </vs-button>
-                        </vs-col>
+                        </div>
                     </vs-row>
                 </div>
                 <div style="margin-top: 10px;" slot="media">

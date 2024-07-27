@@ -1,7 +1,7 @@
 <template>
     <div>
+        <!-- Quill文本编辑器 -->
         <div style="min-height: 600px;max-height: auto;" ref="editor" class="ql-container"></div>
-
         <div>
             <el-upload action="/api/admin/file/image" :headers="headers" :on-success="handleUploadSuccess" name="file" :show-file-list="false"
                 style="display: none" ref="upload" v-if="this.uploadUrl">

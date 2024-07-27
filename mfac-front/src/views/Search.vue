@@ -2,10 +2,10 @@
     <div>
         <!-- 头部搜索栏 -->
         <div style="padding-top: 15px;width: 850px;height: 75px;
-        border-radius: 10px;
-        position: relative;left: 50%;margin-left: -425px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
-        background-color: white;margin-top: 30px;">
+            border-radius: 10px;
+            position: relative;left: 50%;margin-left: -425px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+            background-color: rgba(254,223,225);margin-top: 30px;">
             <vs-row vs-align="center" vs-type="flex" vs-justify="space-around" vs-w="12">
                 <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="10">
                     <vs-input style="width: 600px;" size="large" icon-pack="fa" icon="fa-search" placeholder="Search"
@@ -18,11 +18,11 @@
         </div>
         <!-- 博客列表 -->
         <div
-            style="padding-top: 20px;padding-bottom: 20px;margin-top: 80px;width: 1000px;max-height: auto;min-height: 400px;position: relative;left: 50%;margin-left: -500px; background-color: #FEDFE1;bottom: 40px;">
+            style="border-radius: 20px;padding-top: 20px;padding-bottom: 20px;margin-top: 80px;width: 1000px;max-height: auto;min-height: 400px;position: relative;left: 50%;margin-left: -500px; background-color: #FEDFE1;bottom: 40px;">
             <div v-if="blogsLength !== 0">
                 <BlogBlock v-for="blog in blogs" :key="blog.id" :blog="blog"></BlogBlock>
                 <!-- 分页 -->
-                <el-pagination style="margin-top: 20px;width: 200px;position: relative;left: 50%;margin-left: -100px;" background layout="prev, pager, next" @current-change="handlePageChange"
+                <el-pagination v-if="total > pageSize" style="margin-top: 20px;width: 200px;position: relative;left: 50%;margin-left: -100px;" background layout="prev, pager, next" @current-change="handlePageChange"
                     :page-size="pageSize" :current-page="pageNum" :total="total">
                 </el-pagination>
             </div>

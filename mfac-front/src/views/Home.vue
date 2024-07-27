@@ -7,7 +7,7 @@
         <!-- 博客列表 -->
         <vs-col vs-offset="0" vs-type="flex" vs-justify="center" vs-align="center" vs-w="8">
           <div
-            style="background-color: #FEDFE1;box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);width: 1000px;height: 100%;padding-bottom: 20px;">
+            style="border-radius: 20px;background-color: #FEDFE1;box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);width: 1000px;height: 100%;padding-bottom: 20px;">
             <!-- Header -->
             <div style="width: 100%;height: 60px;">
               <vs-row style="width: 100%;height: 100%;" vs-type="flex" vs-justify="space-between">
@@ -26,7 +26,7 @@
             <div v-if="blogsLength > 0" style="width: 100%;height: 100%;">
               <BlogBlockVue v-for="blog in blogs" :key="blog.id" :blog="blog"></BlogBlockVue>
               <!-- 分页 -->
-              <el-pagination style="float: right;margin-top: 20px;" background layout="prev, pager, next" @current-change="handlePageChange"
+              <el-pagination v-if="total > pageSize" style="float: right;margin-top: 20px;" background layout="prev, pager, next" @current-change="handlePageChange"
                 :page-size="pageSize" :current-page="pageNum" :total="total">
               </el-pagination>
             </div>

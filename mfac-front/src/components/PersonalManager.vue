@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="margin-top: 30px;text-align: center;width: 400px;height: 600px;position: relative;left: 50%;margin-left: -200px;background-color: white;box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);">
+    <div style="border-radius: 20px;margin-top: 30px;text-align: center;width: 400px;height: 600px;position: relative;left: 50%;margin-left: -200px;background-color: white;box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);">
         <div>
             <vs-avatar size="210px" :src="UserDetail.avatar"/>
         </div>

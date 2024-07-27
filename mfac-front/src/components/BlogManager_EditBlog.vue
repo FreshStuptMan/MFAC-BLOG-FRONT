@@ -19,7 +19,10 @@
             </div>
             <!-- 博客正文 -->
             <div style="width: 100%;padding-left: 10px;padding-right: 10px;">
-                <BlogEditorVue ref="blogEditor"></BlogEditorVue>
+                <!-- Quill文本编辑器 -->
+                <!-- <BlogEditorVue ref="blogEditor"></BlogEditorVue> -->
+                <!-- MavonEditor编辑器 -->
+                <BlogMavonEditorVue ref="blogEditor"></BlogMavonEditorVue>
             </div>
             <vs-divider color="#ad289f"></vs-divider>
             <!-- 博客类型与标签 -->
@@ -78,6 +81,7 @@
 
 <script>
 import axios from 'axios'
+import BlogMavonEditorVue from './BlogMavonEditor.vue'
 import BlogEditorVue from './BlogEditor.vue'
 export default {
     props: ['id'],
@@ -90,7 +94,8 @@ export default {
         }
     },
     components: {
-        BlogEditorVue
+        BlogEditorVue,
+        BlogMavonEditorVue
     },
     data() {
         return {
@@ -258,8 +263,8 @@ export default {
             this.$emit('edit-cancel')
         },
         // 保存
-        handleSave() {
-            this.editForm.content = this.$refs.blogEditor.getContent()
+        async handleSave() {
+            this.editForm.content = await this.$refs.blogEditor.getContent()
             this.editForm.status = 1
             if(!this.editFormVarify()) {
                 return
@@ -267,8 +272,8 @@ export default {
             this.handleUpdateBlog()
         },
         // 发布
-        handlePublish() {
-            this.editForm.content = this.$refs.blogEditor.getContent()
+        async handlePublish() {
+            this.editForm.content = await this.$refs.blogEditor.getContent()
             this.editForm.status = 2
             if(!this.editFormVarify()) {
                 return

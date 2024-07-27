@@ -25,7 +25,10 @@
             </div>
             <!-- 博客正文 -->
             <div style="width: 100%;padding-left: 10px;padding-right: 10px;">
-                <BlogEditorVue ref="blogContent"></BlogEditorVue>
+                <!-- Quill文本编辑器 -->
+                <!-- <BlogEditorVue ref="blogContent"></BlogEditorVue> -->
+                <!-- Mavon-Editor文本编辑器 -->
+                <BlogMavonEditorVue ref="blogContent"></BlogMavonEditorVue>
             </div>
             <vs-divider color="#ad289f"></vs-divider>
             <!-- 博客类型与标签 -->
@@ -98,6 +101,7 @@
 <script>
 import axios from 'axios'
 import BlogEditorVue from './BlogEditor.vue'
+import BlogMavonEditorVue from './BlogMavonEditor.vue'
 export default {
     computed: {
         token() {
@@ -108,7 +112,8 @@ export default {
         }
     },
     components: {
-        BlogEditorVue
+        BlogEditorVue,
+        BlogMavonEditorVue
     },
     data() {
         return {
@@ -232,8 +237,8 @@ export default {
             this.$emit('create-cancel')
         },
         // 保存
-        handleSave() {
-            this.createForm.content = this.$refs.blogContent.getContent()
+        async handleSave() {
+            this.createForm.content = await this.$refs.blogContent.getContent()
             this.createForm.status = 1
             if(!this.createFormVarify()) {
                 return
@@ -241,8 +246,8 @@ export default {
             this.handleCreateBlog()
         },
         // 发布
-        handlePublish() {
-            this.createForm.content = this.$refs.blogContent.getContent()
+        async handlePublish() {
+            this.createForm.content = await this.$refs.blogContent.getContent()
             this.createForm.status = 2
             if(!this.createFormVarify()) {
                 return
