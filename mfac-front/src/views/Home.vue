@@ -1,13 +1,13 @@
 <template>
   <div>
-    <div style="top: 30px;width: 1600px;
-      left: 50%;margin-left: -800px;max-height: 2200px;
+    <div style="top: 20px;width: 1600px;
+      left: 50%;margin-left: -800px;max-height: 2400px;
       position: relative;">
-      <vs-row vs-w="12" style="max-height: 2000px;">
+      <vs-row vs-w="12" style="max-height: 2300px;">
         <!-- 博客列表 -->
         <vs-col vs-offset="0" vs-type="flex" vs-justify="center" vs-align="center" vs-w="8">
           <div
-            style="border-radius: 20px;background-color: #FEDFE1;box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);width: 1000px;height: 100%;padding-bottom: 20px;">
+            style="border-radius: 20px;background-color: #FEDFE1;box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);width: 1000px;min-height: auto;max-height: 100%;padding-bottom: 20px;">
             <!-- Header -->
             <div style="width: 100%;height: 60px;">
               <vs-row style="width: 100%;height: 100%;" vs-type="flex" vs-justify="space-between">
@@ -23,7 +23,7 @@
               <vs-divider style="margin-top: 0px;" color="#DB4D6D"></vs-divider>
             </div>
             <!-- Content -->
-            <div v-if="blogsLength > 0" style="width: 100%;height: 100%;">
+            <div v-if="blogsLength > 0" style="width: 100%;height: 90%;">
               <BlogBlockVue v-for="blog in blogs" :key="blog.id" :blog="blog"></BlogBlockVue>
               <!-- 分页 -->
               <el-pagination v-if="total > pageSize" style="float: right;margin-top: 20px;" background layout="prev, pager, next" @current-change="handlePageChange"

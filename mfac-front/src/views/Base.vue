@@ -49,7 +49,7 @@
             </div>
         </vs-popup>
         <transition name="fade" mode="out-in">
-            <router-view></router-view>
+            <router-view style="min-height: auto;max-height: auto;padding-bottom: 30px;"></router-view>
         </transition>
     </div>
 </template>
