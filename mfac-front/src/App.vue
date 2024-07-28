@@ -8,7 +8,7 @@
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   background-image: url('/public/Back1.gif');
-  background-size: contain;
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }

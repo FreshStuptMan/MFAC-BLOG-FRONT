@@ -44,7 +44,9 @@
         <!-- Quill回显 -->
         <!-- <div style="width: 100%;" class="ql-editor" v-html="BlogDetail.content"></div> -->
         <!-- mavonEditor回显 -->
-        <div style="width: 100%;" v-html="htmlContent" class="markdown-body"></div>
+        <!-- <div style="width: 100%;" v-html="htmlContent" class="markdown-body"></div> -->
+        <!-- <article class="markdown-body" style="width: 100%;" v-html="htmlContent"></article> -->
+        <mavon-editor style="background-color: white !important;" defaultOpen="preview" :ishljs="true" :toolbarsFlag='false' :zIndex="0" :subfield="false" ref=md :value="BlogDetail.content"></mavon-editor>
       </div>
       <vs-divider color="#ad289f"></vs-divider>
       <!-- 分类与标签 -->
@@ -148,5 +150,4 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import url('https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.1.0/github-markdown.min.css');
 </style>
