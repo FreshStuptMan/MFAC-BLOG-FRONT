@@ -66,7 +66,7 @@
       </div>
     </div>
     <!-- 侧边工具栏 -->
-    <div style="width: 60px;height: 150px;background-color: white;border-radius: 10px;position: fixed;right: 50px;bottom: 50px;">
+    <div style="width: 60px;height: 150px;border-radius: 10px;position: fixed;right: 50px;bottom: 50px;">
       <!-- 回到首页 -->
       <vs-button @click="GoToHome" style="width: 50px;margin-left: 10px;margin-top: 10px;" color="warning" icon-pack="fa" type="filled" icon="fa-home"></vs-button>
       <!-- 回到上一页 -->
