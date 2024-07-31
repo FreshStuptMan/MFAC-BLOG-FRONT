@@ -4,6 +4,7 @@
             ref="md"
             style="height: 100%;" 
             :toolbars="toolbars" 
+            codeStyle='idea'
             @imgAdd="$imgAdd"
             @imgDel="$imgDel"
             v-model="content">

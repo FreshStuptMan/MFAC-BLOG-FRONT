@@ -37,19 +37,6 @@
         </vs-col>
         <!-- 侧边栏 -->
         <vs-col vs-justify="center" vs-w="4">
-          <!-- 网站介绍 -->
-          <!-- <div
-            style="padding-top: 10px;text-align: center;width: 400px;height: 500px;background-color: #FEDFE1;margin-top: 30px;position: relative;margin-left: -200px;left: 50%;">
-            <h1>𝓘𝓷𝓽𝓮𝓻𝓭𝓾𝓬𝓮</h1>
-            <vs-divider color="#ad289f"></vs-divider>
-            <div style="width: 350px;height: 300px;position: relative;left: 50%;margin-left: -175px;">
-              <p>
-                欢迎来到我的个人博客--MFAC！<br> 
-                博客采用技术栈：<br>
-                SpringBoot+Mybatis+Vue+Vuesax
-              </p>
-            </div>
-          </div> -->
           <!-- 实现粘滞效果 -->
           <div style="position: sticky;top: 10px;">
             <!-- 最新博客 -->
@@ -80,6 +67,31 @@
                   <TagSiderBlockVue :info="tag"></TagSiderBlockVue>
                 </li>
               </ul>
+            </div>
+            <div style="background-color: #FEDFE1;
+              margin-top: 20px;
+              border-radius: 15px;padding-top: 20px;text-align: center;
+              width: 400px;height: auto;
+              padding-bottom: 20px;
+              box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+              position: relative;margin-left: -200px;left: 50%;">
+              <h2>𝓦𝓮𝓫 𝓘𝓷𝓯𝓸</h2>
+              <vs-divider color="#ad289f">mfac.love 欢迎您的到访</vs-divider>
+              <div style="width: 350px;position: relative;left: 50%;margin-left: -140px;height: 50px;">
+                <vs-chip color="pink">
+                <vs-avatar color="pink" icon-pack="fa" icon="fa-qq" />
+                  1367213168
+                </vs-chip>
+                <vs-chip  color="pink">
+                  <vs-avatar color="pink" icon-pack="fa" icon="fa-google" />
+                  mfaclove@gmail.com
+                </vs-chip>
+              </div>
+              <div>
+                <vs-icon icon-pack="fa" size="20px" icon="fa-github" color="#c72a75"></vs-icon>
+                <a class="link_jump" style="color: gray;margin-left: 5px;margin-right: 15px;" target="blank" href="https://github.com/FreshStuptMan">前往GitHub</a>  
+                <a class="link_jump" style="color: gray;" target="blank" href="https://beian.miit.gov.cn/#/Integrated/index">赣ICP备2023008741号</a>
+              </div>
             </div>
           </div>
         </vs-col>
@@ -241,4 +253,8 @@ export default {
 </script>
 
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.link_jump:hover {
+    color: black !important;
+  }
+</style>
