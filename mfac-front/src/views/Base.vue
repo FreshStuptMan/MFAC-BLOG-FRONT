@@ -16,6 +16,9 @@
             <vs-navbar-item index="2">
                 <router-link to="/Tag" style="font-size: 30px;">标签</router-link>
             </vs-navbar-item>
+            <vs-navbar-item index="4">
+                <router-link to="/Tool" style="font-size: 30px;">工具链</router-link>
+            </vs-navbar-item>
             <vs-navbar-item index="3">
                 <router-link to="/Manager" style="font-size: 30px;">我的</router-link>
             </vs-navbar-item>

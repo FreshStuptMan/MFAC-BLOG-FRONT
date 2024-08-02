@@ -7,6 +7,7 @@ import Tag from '@/views/Tag.vue'
 import Manager from '@/views/Manager.vue'
 import BlogDetail from '@/views/BlogDetail.vue'
 import Search from '@/views/Search.vue'
+import Tool from '@/views/Tool.vue'
 import store from '@/store'
 import { Message } from 'element-ui';
 Vue.use(VueRouter)
@@ -36,6 +37,11 @@ const routes = [
         path: '/Manager',
         name: Manager,
         component: Manager
+      },
+      {
+        path: '/Tool',
+        name: Tool,
+        component: Tool
       },
       {
         path: '/BlogDetail/:id',
