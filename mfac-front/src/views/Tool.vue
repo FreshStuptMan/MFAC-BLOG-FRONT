@@ -5,7 +5,7 @@
       style="margin-top: 30px;width: 900px;height: 200px;position: relative;left: 50%;margin-left: -450px;
       background-color: rgb(254,223,225);border-radius: 20px;">
       <div style="font-size: 40px;font-weight: bolder;top: 10px;margin-left: 30px;position: relative;">
-        常用工具传送门，目前共收录了 <span style="color: chocolate;">4000</span> 个
+        常用工具传送门
       </div>
       <p style="font-weight: bolder;margin-left: 30px;margin-top: 30px;width: 600px;"><span style="color: red;">Why do this: </span>这些都是在过去学习过程所用到过的网站，也有听过但是没有用到过的，
         主要是我的浏览器收藏夹太多了，干脆弄个书签页记录一下，里面有许多不错的网站我也想分享一下呢。</p>
