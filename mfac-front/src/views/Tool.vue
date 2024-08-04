@@ -15,25 +15,14 @@
     <div 
       style="margin-top: 30px;width: 900px;height: auto;padding-bottom: 30px;position: relative;left: 50%;margin-left: -450px;
       background-color: rgb(254,223,225);border-radius: 20px;">
-      <vs-card style="width: 800px;margin-left: 50px;top: 20px;padding-bottom: 20px;position: relative;" actionable>
+      <vs-card v-for="toolType in ToolTypes" :key="toolType.id" style="width: 800px;margin-left: 50px;top: 20px;padding-bottom: 20px;position: relative;" actionable>
         <div slot="header" style="text-align: center;">
           <h3 style="font-size: 30px;">
-            AI
+            {{ toolType.name }}
           </h3>
         </div>
         <div slot="media">
-          <ToolBlockVue></ToolBlockVue>
-          <ToolBlockVue></ToolBlockVue>
-          <ToolBlockVue></ToolBlockVue>
-          <ToolBlockVue></ToolBlockVue>
-          <ToolBlockVue></ToolBlockVue>
-          <ToolBlockVue></ToolBlockVue>
-          <ToolBlockVue></ToolBlockVue>
-          <ToolBlockVue></ToolBlockVue>
-          <ToolBlockVue></ToolBlockVue>
-          <ToolBlockVue></ToolBlockVue>
-          <ToolBlockVue></ToolBlockVue>
-          <ToolBlockVue></ToolBlockVue>
+          <ToolBlockVue :tool="tool" v-for="tool in toolType.tools" :key="tool.id"></ToolBlockVue>
         </div>
       </vs-card>
     </div>
@@ -42,6 +31,7 @@
 
 <script>
 import ToolBlockVue from '@/components/ToolBlock.vue'
+import axios from 'axios'
 export default {
   data () {
     return {
@@ -53,7 +43,27 @@ export default {
   },
   methods: {
     // 获取工具
-    GetTools() {},
+    GetTools() {
+      axios.get('/api/toolType/listDetailAll')
+      .then(response => {
+        if (response.data.code === 200) {
+          this.ToolTypes = response.data.data
+        } else {
+          this.$vs.notify({
+            title:'提示',
+            text: response.data.msg,
+            color:'red'
+          })
+        }
+      })
+      .catch(error => {
+        this.$vs.notify({
+          title:'提示',
+          text: error,
+          color:'red'
+        })
+      })
+    },
   },
   mounted () {
     this.GetTools()

@@ -117,6 +117,7 @@
                     <vs-select placeholder="工具类型" width="150px" style="margin-left: 5px;" label="工具类型" icon-pack="fa" icon="fa-angle-down" v-model="editForm.toolTypeId">
                         <vs-select-item :key="toolType.id" :value="toolType.id" :text="toolType.name" v-for="toolType in toolTypes" />
                     </vs-select>
+                    <input style="margin-top: 6px;margin-left: 5px;" type="color" v-model="editForm.color">
                     <!-- 工具描述 -->
                     <div style="width: 100%;padding-right: 30px;padding-bottom: 20px;padding-top: 10px;">
                         <vs-textarea counter="100" label="工具描述: 100" :counter-danger.sync="counterDanger" v-model="editForm.description" />
@@ -178,6 +179,7 @@ export default {
             editForm: {
                 name: '',
                 link: '',
+                color: '',
                 description: '',
                 avatar: '',
                 toolTypeId: null
@@ -212,16 +214,10 @@ export default {
         },
         // 获取类型列表
         GetToolTypeList() {
-            axios.post('/api/admin/toolType/list', {
-                name: this.SearchForm.name,
-                pageSize: this.pageSize,
-                pageNum: this.pageNum
-            }, {
-                headers: { token: this.token }
-            })
+            axios.get('/api/toolType/listAll')
             .then(response => {
                 if (response.data.code === 200) {
-                    this.toolTypes = response.data.data.records
+                    this.toolTypes = response.data.data
                 } else {
                     this.$vs.notify({
                         title: '提示',
@@ -286,6 +282,7 @@ export default {
             this.editForm.description = tool.description
             this.editForm.avatar = tool.avatar
             this.editForm.toolTypeId = tool.toolTypeId
+            this.editForm.color = tool.color
             this.editPopVis = true
         },
         // 确定编辑
@@ -299,6 +296,7 @@ export default {
                 link: this.editForm.link,
                 description: this.editForm.description,
                 avatar: this.editForm.avatar,
+                color: this.editForm.color,
                 toolTypeId: this.editForm.toolTypeId
             }, {
                 headers: { token: this.token }
