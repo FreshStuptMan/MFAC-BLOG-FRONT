@@ -31,6 +31,7 @@
 
 <script>
 import ToolBlockVue from '@/components/ToolBlock.vue'
+import { Loading } from 'element-ui'
 import axios from 'axios'
 export default {
   data () {
@@ -44,6 +45,13 @@ export default {
   methods: {
     // 获取工具
     GetTools() {
+      Loading.service({
+          lock: true,
+          text: '数据加载中，请稍等。。。',
+          spinner: 'el-icon-loading',
+          background: 'rgba(255,255,255)',
+          fullscreen: true
+      })
       axios.get('/api/toolType/listDetailAll')
       .then(response => {
         if (response.data.code === 200) {
@@ -63,6 +71,7 @@ export default {
           color:'red'
         })
       })
+      Loading.service({ fullscreen: true }).close()
     },
   },
   mounted () {

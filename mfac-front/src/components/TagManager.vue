@@ -319,7 +319,7 @@ export default {
                     color: 'red'
                 })
             })
-            this.cancalDelete()
+            this.cancelDelete()
         },
         // 取消删除
         cancelDelete() {

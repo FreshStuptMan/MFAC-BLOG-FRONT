@@ -124,6 +124,10 @@ export default {
         if(response.data.code === 200) {
           this.blogs = response.data.data.records
           this.total = response.data.data.total
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          })
         } else {
           this.$vs.notify({
             title:'提示',
