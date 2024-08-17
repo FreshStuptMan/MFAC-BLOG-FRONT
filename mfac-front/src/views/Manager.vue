@@ -105,7 +105,7 @@ export default {
     handleTranPersonalInfo() {
         if (this.$store.state.Manager_Tab) {
         if(this.$store.state.Manager_Tab === 'PersonalManager') {
-          this.activeTab = '3'
+          this.activeTab = '5'
           this.$store.dispatch('updateManagerTab', '')
         }
       }
