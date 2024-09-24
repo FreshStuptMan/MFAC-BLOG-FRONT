@@ -470,14 +470,6 @@ export default {
                 })
                 return false
             }
-            // if (this.createFrom.avatar === '') {
-            //     this.$vs.notify({
-            //         title: '提示',
-            //         text: '请填写工具图标',
-            //         color: 'red'
-            //     })
-            //     return false
-            // }
             if (this.createFrom.description === '') {
                 this.$vs.notify({
                     title: '提示',
@@ -530,14 +522,6 @@ export default {
                 })
                 return false
             }
-            // if (this.editForm.avatar === '') {
-            //     this.$vs.notify({
-            //         title: '提示',
-            //         text: '请填写工具图标',
-            //         color: 'red'
-            //     })
-            //     return false
-            // }
             if (this.editForm.description === '') {
                 this.$vs.notify({
                     title: '提示',

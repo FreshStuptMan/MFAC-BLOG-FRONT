@@ -7,7 +7,7 @@
         <!-- 博客列表 -->
         <vs-col vs-offset="0" vs-type="flex" vs-justify="center" vs-align="center" vs-w="8">
           <div
-            style="border-radius: 20px;background-color: #FEDFE1;box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);width: 1000px;min-height: auto;max-height: 100%;padding-bottom: 20px;">
+            style="border-radius: 20px;background-color: #F596AA;box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);width: 1000px;min-height: auto;max-height: 100%;padding-bottom: 20px;">
             <!-- Header -->
             <div style="width: 100%;height: 60px;">
               <vs-row style="width: 100%;height: 100%;" vs-type="flex" vs-justify="space-between">
@@ -40,7 +40,7 @@
           <!-- 实现粘滞效果 -->
           <div style="position: sticky;top: 10px;">
             <!-- 最新博客 -->
-            <div style="background-color: #FEDFE1;
+            <div style="background-color: #F596AA;
               border-radius: 15px;padding-top: 20px;text-align: center;
               width: 400px;height: auto;
               padding-bottom: 20px;
@@ -51,7 +51,7 @@
               <NewestBlogBlockVue v-for="blog in newestBlogList" :key="blog.id" :blog="blog"></NewestBlogBlockVue>
             </div>
             <!-- 随机分类与标签 -->
-            <div style="background-color: #FEDFE1;
+            <div style="background-color: #F596AA;
               border-radius: 15px;padding-top: 20px;
               text-align: center;
               width: 400px;height: auto;padding-bottom: 20px;
@@ -68,7 +68,7 @@
                 </li>
               </ul>
             </div>
-            <div style="background-color: #FEDFE1;
+            <div style="background-color: #F596AA;
               margin-top: 20px;
               border-radius: 15px;padding-top: 20px;text-align: center;
               width: 400px;height: auto;
@@ -78,12 +78,12 @@
               <h2>𝓦𝓮𝓫 𝓘𝓷𝓯𝓸</h2>
               <vs-divider color="#ad289f">mfac.love 欢迎您的到访</vs-divider>
               <div style="width: 350px;position: relative;left: 50%;margin-left: -140px;height: 50px;">
-                <vs-chip color="pink">
-                <vs-avatar color="pink" icon-pack="fa" icon="fa-qq" />
+                <vs-chip color="#F596AA">
+                <vs-avatar color="#F596AA" icon-pack="fa" icon="fa-qq" />
                   1367213168
                 </vs-chip>
-                <vs-chip  color="pink">
-                  <vs-avatar color="pink" icon-pack="fa" icon="fa-google" />
+                <vs-chip  color="#F596AA">
+                  <vs-avatar color="#F596AA" icon-pack="fa" icon="fa-google" />
                   mfaclove@gmail.com
                 </vs-chip>
               </div>

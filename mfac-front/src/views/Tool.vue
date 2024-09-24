@@ -2,8 +2,8 @@
   <div>
     <!-- 公告栏 -->
     <div 
-      style="margin-top: 30px;width: 900px;height: 200px;position: relative;left: 50%;margin-left: -450px;
-      background-color: rgb(254,223,225);border-radius: 20px;">
+      style="margin-top: 30px;width: 900px;height: 220px;position: relative;left: 50%;margin-left: -450px;
+      background-color: #F596AA;border-radius: 20px;">
       <div style="font-size: 40px;font-weight: bolder;top: 10px;margin-left: 30px;position: relative;">
         常用工具传送门
       </div>
@@ -14,7 +14,7 @@
     <!-- 工具展示 -->
     <div 
       style="margin-top: 30px;width: 900px;height: auto;padding-bottom: 30px;position: relative;left: 50%;margin-left: -450px;
-      background-color: rgb(254,223,225);border-radius: 20px;">
+      background-color: #F596AA;border-radius: 20px;">
       <vs-card v-for="toolType in ToolTypes" :key="toolType.id" style="width: 800px;margin-left: 50px;top: 20px;padding-bottom: 20px;position: relative;" actionable>
         <div slot="header" style="text-align: center;">
           <h3 style="font-size: 30px;">

@@ -15,7 +15,7 @@
                 <vs-button @click="handleReset" size="small"
                     style="width: 75px;height: 35px;margin-left: 5px;margin-top: 15px;" color="#c72a75"
                     type="filled">重置</vs-button>
-                <!-- 创建博客 -->
+                <!-- 创建分类 -->
                 <vs-button @click="handleCreate" size="small"
                     style="width: 75px;height: 35px;margin-left: 5px;margin-top: 15px;" color="#c72a75"
                     type="filled">创建分类</vs-button>

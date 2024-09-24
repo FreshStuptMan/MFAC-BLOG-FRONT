@@ -5,7 +5,7 @@
             border-radius: 10px;
             position: relative;left: 50%;margin-left: -425px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
-            background-color: rgba(254,223,225);margin-top: 30px;">
+            background-color: #F596AA;margin-top: 30px;">
             <vs-row vs-align="center" vs-type="flex" vs-justify="space-around" vs-w="12">
                 <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="10">
                     <vs-input style="width: 600px;" size="large" icon-pack="fa" icon="fa-search" placeholder="Search"
@@ -18,7 +18,7 @@
         </div>
         <!-- 博客列表 -->
         <div
-            style="border-radius: 20px;padding-top: 20px;padding-bottom: 20px;margin-top: 80px;width: 1000px;max-height: auto;min-height: 400px;position: relative;left: 50%;margin-left: -500px; background-color: #FEDFE1;bottom: 40px;">
+            style="border-radius: 20px;padding-top: 20px;padding-bottom: 20px;margin-top: 80px;width: 1000px;max-height: auto;min-height: 400px;position: relative;left: 50%;margin-left: -500px; background-color: #F596AA;bottom: 40px;">
             <div v-if="blogsLength !== 0">
                 <BlogBlock v-for="blog in blogs" :key="blog.id" :blog="blog"></BlogBlock>
                 <!-- 分页 -->
@@ -32,7 +32,7 @@
         </div>
         <!-- 侧边工具栏 -->
         <div
-            style="width: 60px;height: 150px;background-color: white;border-radius: 10px;position: fixed;right: 50px;bottom: 50px;">
+            style="width: 60px;height: 150px;background-color: rgb(255, 255, 255, 0);border-radius: 10px;position: fixed;right: 50px;bottom: 50px;">
             <!-- 回到首页 -->
             <vs-button @click="GoToHome" style="width: 50px;margin-left: 10px;margin-top: 10px;" color="warning"
                 icon-pack="fa" type="filled" icon="fa-home"></vs-button>

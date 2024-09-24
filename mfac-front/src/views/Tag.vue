@@ -2,7 +2,7 @@
   <div>
     <!-- 头部标签列表 -->
     <div style="border-radius: 20px;width: 1000px;height: auto;position: relative;margin-top: 20px;
-      left: 50%;margin-left: -500px;background-color: #FEDFE1;">
+      left: 50%;margin-left: -500px;background-color: #F596AA;">
       <!-- header -->
       <div style="width: 100%;height: 60px;">
         <vs-row style="width: 100%;height: 100%;" vs-type="flex" vs-justify="space-between">
@@ -26,7 +26,7 @@
       </div>
     </div>
     <!-- 该标签的博客列表 -->
-    <div v-if="blogsLength !== 0" style="border-radius: 20px;padding-top: 10px;padding-bottom: 20px;margin-top: 80px;width: 1000px;height: auto;position: relative;left: 50%;margin-left: -500px; background-color: #FEDFE1;bottom: 40px;">
+    <div v-if="blogsLength !== 0" style="border-radius: 20px;padding-top: 10px;padding-bottom: 20px;margin-top: 80px;width: 1000px;height: auto;position: relative;left: 50%;margin-left: -500px; background-color: #F596AA;bottom: 40px;">
       <BlogBlock v-for="blog in blogs" :key="blog.id" :blog="blog"></BlogBlock>
       <!-- 分页 -->
       <el-pagination v-if="total > pageSize" style="margin-top: 20px;width: 200px;position: relative;left: 50%;margin-left: -100px;" background layout="prev, pager, next" @current-change="handlePageChange"
@@ -158,7 +158,7 @@ export default {
 
 <style>
 .active-tag {
-  color: white;
+  color: #FEDFE1;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 </style>

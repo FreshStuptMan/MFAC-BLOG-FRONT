@@ -1,6 +1,6 @@
 <template>
     <div>
-        <vs-navbar style="height: 80px;" color="#FEDFE1" v-model="indexActive" text-color="rgba(255,255,255,.6)"
+        <vs-navbar style="height: 80px;" color="#F596AA" v-model="indexActive" text-color="rgba(255,255,255,.6)"
             active-text-color="rgba(255,255,255,1)">
             <div slot="title">
                 <vs-navbar-title class="logo_style">
@@ -15,6 +15,9 @@
             </vs-navbar-item>
             <vs-navbar-item index="2">
                 <router-link to="/Tag" style="font-size: 30px;">标签</router-link>
+            </vs-navbar-item>
+            <vs-navbar-item index="5">
+                <router-link to="/FriendLink" style="font-size: 30px;">友链</router-link>
             </vs-navbar-item>
             <vs-navbar-item index="4">
                 <router-link to="/Tool" style="font-size: 30px;">工具链</router-link>
@@ -41,14 +44,14 @@
             <vs-button @click="handleLoginClick" style="margin-right: 20px;" v-else color="danger" type="flat">登录</vs-button>
         </vs-navbar>
         <!-- 登录弹窗 -->
-        <vs-popup title="登录" :active.sync="loginPopVis" :button-close-hidden="true">
+        <vs-popup style="color: black" background-color-popup="#F596AA" title="登录" :active.sync="loginPopVis" :button-close-hidden="true">
             <div>
                 <vs-input style="float: left;width: 50%;margin: 10px;margin-top: 5px;" placeholder="账户" v-model="loginForm.account"/>
                 <vs-input type="password" style="float: left;width: 50%;margin: 10px;margin-top: 5px;" placeholder="密码" v-model="loginForm.password"/>
             </div>
             <div style="width: 100%;">
-                <vs-button @click="acceptLogin" style="float: right;" color="danger" type="line">登录</vs-button>
-                <vs-button @click="cancelLogin" style="float: right;" color="danger" type="line">取消</vs-button>
+                <vs-button @click="cancelLogin" style="float: right;" color="white" type="line">取消</vs-button>
+                <vs-button @click="acceptLogin" style="float: right;" color="white" type="line">登录</vs-button>
             </div>
         </vs-popup>
         <transition name="fade" mode="out-in">

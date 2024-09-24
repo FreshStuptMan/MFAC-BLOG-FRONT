@@ -8,8 +8,9 @@ import Manager from '@/views/Manager.vue'
 import BlogDetail from '@/views/BlogDetail.vue'
 import Search from '@/views/Search.vue'
 import Tool from '@/views/Tool.vue'
+import FriendLink from '@/views/FriendLink.vue'
 import store from '@/store'
-import { Message } from 'element-ui';
+import { Message } from 'element-ui'
 Vue.use(VueRouter)
 
 const routes = [
@@ -42,6 +43,11 @@ const routes = [
         path: '/Tool',
         name: Tool,
         component: Tool
+      },
+      {
+        path: '/FriendLink',
+        name: FriendLink,
+        component: FriendLink
       },
       {
         path: '/BlogDetail/:id',

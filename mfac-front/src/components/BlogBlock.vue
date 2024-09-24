@@ -38,20 +38,20 @@
                 </div>
                 <div style="width: 100%;height: 60px;">
                     <vs-row vs-type="flex" vs-justify="space-around">
-                        <vs-col vs-type="flex" vs-align="center" vs-w="2">
-                            <vs-avatar size="40px" style="margin-left: 20px;"
+                        <vs-col vs-type="flex" vs-align="center" vs-w="3">
+                            <vs-avatar size="30px" style="margin-left: 20px;"
                                 :src="blog.authorAvatar" />
                             {{ blog.authorName }}
                         </vs-col>
-                        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="6">
+                        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="5">
                             <vs-icon icon-pack="fa" size="10px" icon="fa-calendar" color="#c72a75"
                                 style="margin-right: 6px;"></vs-icon>
-                            <vs-tooltip color="rgb(199,42,117)" position="bottom" style="margin-right: 50px;margin-top: 3px" text="发布时间">
+                            <vs-tooltip color="rgb(199,42,117)" position="bottom" style="margin-right: 25px;margin-top: 3px" text="发布时间">
                                 <span style="font-size: 13px;">{{ blog.publishTime }}</span>
                             </vs-tooltip>
                             <vs-icon icon-pack="fa" size="10px" icon="fa-pencil" color="#c72a75"
                                 style="margin-right: 4px;"></vs-icon>
-                            <vs-tooltip color="rgb(199,42,117)" position="bottom" style="margin-right: 50px;margin-top: 3px" text="更新时间">
+                            <vs-tooltip color="rgb(199,42,117)" position="bottom" style="margin-right: 25px;margin-top: 3px" text="更新时间">
                                 <span style="font-size: 13px;margin-top: 3px">{{ blog.updateTime }}</span>
                             </vs-tooltip>
                         </vs-col>

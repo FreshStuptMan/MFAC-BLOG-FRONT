@@ -35,6 +35,12 @@
           <ToolManagerVue></ToolManagerVue>
         </div>
       </vs-tab>
+      <vs-tab label="友链管理">
+        <FriendLinkManagerVue></FriendLinkManagerVue>
+      </vs-tab>
+      <vs-tab label="邮件管理">
+        <EmailManagerVue></EmailManagerVue>
+      </vs-tab>
       <vs-tab label="个人信息修改">
         <div>
           <PersonalManagerVue></PersonalManagerVue>
@@ -53,6 +59,8 @@ import BlogManager_CreateBlogVue from '@/components/BlogManager_CreateBlog.vue'
 import BlogManager_EditBlogVue from '@/components/BlogManager_EditBlog.vue'
 import ToolTypeManagerVue from '@/components/ToolTypeManager.vue'
 import ToolManagerVue from '@/components/ToolManager.vue'
+import FriendLinkManagerVue from '@/components/FriendLinkManager.vue'
+import EmailManagerVue from '@/components/EmailManager.vue'
 export default {
   components: {
     BlogManagerVue,
@@ -62,7 +70,9 @@ export default {
     BlogManager_CreateBlogVue,
     BlogManager_EditBlogVue,
     ToolTypeManagerVue,
-    ToolManagerVue
+    ToolManagerVue,
+    FriendLinkManagerVue,
+    EmailManagerVue
   },
   data() {
     return {
@@ -105,7 +115,7 @@ export default {
     handleTranPersonalInfo() {
         if (this.$store.state.Manager_Tab) {
         if(this.$store.state.Manager_Tab === 'PersonalManager') {
-          this.activeTab = '5'
+          this.activeTab = '7'
           this.$store.dispatch('updateManagerTab', '')
         }
       }
