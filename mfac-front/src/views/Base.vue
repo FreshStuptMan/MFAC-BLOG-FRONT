@@ -16,13 +16,13 @@
             <vs-navbar-item index="2">
                 <router-link to="/Tag" style="font-size: 30px;">标签</router-link>
             </vs-navbar-item>
-            <vs-navbar-item index="5">
+            <vs-navbar-item index="3">
                 <router-link to="/FriendLink" style="font-size: 30px;">友链</router-link>
             </vs-navbar-item>
             <vs-navbar-item index="4">
                 <router-link to="/Tool" style="font-size: 30px;">工具链</router-link>
             </vs-navbar-item>
-            <vs-navbar-item index="3">
+            <vs-navbar-item index="5">
                 <router-link to="/Manager" style="font-size: 30px;">我的</router-link>
             </vs-navbar-item>
             <vs-input ref="searchInput" v-on:icon-click="handleBlogSearch" size="default" style="margin-bottom: 15px;margin-right: 15px;margin-left: 200px;" icon-pack="fa"
@@ -119,10 +119,10 @@ export default {
             this.$refs.searchInput.$el.querySelector('input').blur()
             this.$router.push(`/Search/${this.search}`)
             this.search = ''
-            console.log("搜索博客"+this.search) 
         },
         // 修改个人信息
         handleEditPersonalInfo() {
+            this.indexActive = '5'
             if (this.$route.path === '/Manager') {
                 return
             } 
@@ -208,16 +208,18 @@ export default {
         },
     },
     mounted() {
-        if(this.$route.path === '/'){
+        if(this.$route.path === '/') {
             this.indexActive = '0'
-        } else if (this.$route.path === '/Classify'){
+        } else if (this.$route.path === '/Classify') {
             this.indexActive = '1'
         } else if(this.$route.path === '/Tag') {
             this.indexActive = '2'
-        } else if(this.$route.path === '/Manager') {
+        } else if(this.$route.path === '/FriendLink') {
             this.indexActive = '3'
-        } else {
+        } else if(this.$route.path === '/Tool') {
             this.indexActive = '4'
+        } else {
+            this.indexActive = '5'
         }
         this.GetUserInfo()
     }

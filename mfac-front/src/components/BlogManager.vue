@@ -43,6 +43,9 @@
                         <h4 style="width: 100%;text-align: center;">作者名</h4>
                     </vs-th>
                     <vs-th>
+                        <h4 style="width: 100%;text-align: center;">浏览量</h4>
+                    </vs-th>
+                    <vs-th>
                         <h4 style="width: 100%;text-align: center;">创建时间</h4>
                     </vs-th>
                     <vs-th>
@@ -73,6 +76,10 @@
 
                         <vs-td style="text-align: center;" :data="blog.authorName">
                             {{ blog.authorName }}
+                        </vs-td>
+                        
+                        <vs-td style="text-align: center;" :data="blog.view">
+                            {{ blog.view }}
                         </vs-td>
 
                         <vs-td style="text-align: center;" :data="blog.createTime">

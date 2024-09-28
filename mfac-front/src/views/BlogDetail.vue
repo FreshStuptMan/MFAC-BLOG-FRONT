@@ -10,19 +10,24 @@
         </vs-button>
         <h1 style="width: 800px;position: relative;margin-left: -400px;left: 50%;">{{ BlogDetail.title }}</h1>
         <vs-row vs-type="flex" vs-justify="space-around">
-          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="3">
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="2">
             <vs-icon icon-pack="fa" size="10px" icon="fa-user-circle" color="#c72a75"
               style="margin-right: 6px;"></vs-icon>
             <span style="font-size: 13px;">作者：{{ BlogDetail.authorName }}</span>
           </vs-col>
-          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="4">
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="1">
+            <vs-icon icon-pack="fa" size="10px" icon="fa-eye" color="#c72a75"
+              style="margin-right: 8px;"></vs-icon>
+            <span style="font-size: 13px;margin-top: 2px;">浏览量：{{ BlogDetail.view }}</span>
+          </vs-col>
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="3">
             <vs-icon icon-pack="fa" size="10px" icon="fa-calendar" color="#c72a75"
-              style="margin-right: 6px;"></vs-icon>
+              style="margin-right: 4px;"></vs-icon>
             <vs-tooltip color="rgb(199,42,117)" position="top" style="margin-right: 50px;margin-top: 3px" text="发布时间">
               <span style="font-size: 13px;">发布时间：{{ BlogDetail.publishTime }}</span>
             </vs-tooltip>
           </vs-col>
-          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="4">
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="3">
             <vs-icon icon-pack="fa" size="10px" icon="fa-pencil" color="#c72a75"
               style="margin-right: 4px;"></vs-icon>
             <vs-tooltip color="rgb(199,42,117)" position="top" style="margin-right: 50px;margin-top: 3px" text="更新时间">

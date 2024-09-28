@@ -20,6 +20,9 @@
                             <vs-button color="#c72a75" size="small" type="line">
                                 {{ blog.types === 1 ? '转载' : '原创' }}
                             </vs-button>
+                            <vs-icon icon-pack="fa" size="12px" icon="fa-eye" color="#c72a75"
+                                style="margin-right: 5px;margin-left: 10px;"></vs-icon>
+                            <span style="font-size: 10px;margin-top: 6px">浏览量：{{ blog.view }}</span>
                         </div>
                     </vs-row>
                 </div>
@@ -36,7 +39,7 @@
                         </vs-col>
                     </vs-row>
                 </div>
-                <div style="width: 100%;height: 60px;">
+                <div style="width: 100%;height: 40px;margin-top: 10px;">
                     <vs-row vs-type="flex" vs-justify="space-around">
                         <vs-col vs-type="flex" vs-align="center" vs-w="3">
                             <vs-avatar size="30px" style="margin-left: 20px;"
